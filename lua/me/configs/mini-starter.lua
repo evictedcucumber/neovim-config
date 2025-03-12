@@ -32,4 +32,5 @@ starter.setup({
         starter.gen_hook.aligning('center', 'center'),
         starter.gen_hook.indexing('all', { 'Telescope', 'Builtin actions' }),
     },
+    query_updaters = 'abcdefghijklmnopqrstuvwxyz0123456789_.',
 })
