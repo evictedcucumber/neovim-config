@@ -11,6 +11,7 @@ telescope.setup({
         },
         sorting_strategy = 'ascending',
         file_ignore_patterns = {
+            '.git',
             '.git/',
             '*cache*',
         },
