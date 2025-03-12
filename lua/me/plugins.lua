@@ -301,7 +301,7 @@ return {
     {
         'echasnovski/mini.files',
         version = '*',
-        keys = { { '-', '<cmd>lua Minifiles.open()<CR>', desc = 'File explorer' } },
+        keys = { { '-', '<cmd>lua MiniFiles.open()<CR>', desc = 'File explorer' } },
         opts = {},
     },
     -- /mini
