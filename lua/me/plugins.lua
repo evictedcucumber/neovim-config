@@ -196,19 +196,10 @@ return {
         opts = {},
     },
     -- /conform
-    -- telescope
     {
-        'nvim-telescope/telescope.nvim',
-        dependencies = {
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-            'nvim-telescope/telescope-ui-select.nvim',
-        },
-        event = 'VeryLazy',
         config = function()
-            require('me.configs.telescope')
         end,
     },
-    -- /telescope
     -- harpoon
     {
         'ThePrimeagen/harpoon',
