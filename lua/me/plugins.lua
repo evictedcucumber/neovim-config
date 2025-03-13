@@ -196,10 +196,16 @@ return {
         opts = {},
     },
     -- /conform
+    -- snacks
     {
+        'folke/snacks.nvim',
+        priority = 1000,
+        lazy = false,
         config = function()
+            require('me.configs.snacks')
         end,
     },
+    -- /snacks
     -- harpoon
     {
         'ThePrimeagen/harpoon',
