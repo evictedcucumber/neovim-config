@@ -4,9 +4,6 @@ vim.opt.termguicolors = true
 -- using dark background
 vim.opt.background = 'dark'
 
--- force nerd font
-vim.g.have_nerd_font = true
-
 -- disable default providers
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
