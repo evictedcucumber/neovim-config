@@ -6,15 +6,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
 
         local set = vim.keymap.set
-        local buf = vim.lsp.buf
-        set('n', 'gd', buf.definition, opts('Go to definition'))
-        set('n', 'gD', buf.declaration, opts('Go to declaration'))
-        set('n', 'gi', buf.implementation, opts('Go to implementation'))
-        set('n', 'gr', buf.references, opts('Go to references'))
-        set('n', '<leader>rn', buf.rename, opts('Rename'))
-        set({ 'n', 'v' }, '<leader>ca', buf.code_action, opts('Code Actions'))
-        set('n', 'K', buf.hover, opts('Show Hover Documentation'))
-        set('i', '<C-h>', buf.signature_help, opts('Show Signature Help'))
+        set('n', 'gd', function()
+            Snacks.picker.lsp_definitions()
+        end, opts('Go to definition'))
+        set('n', 'gD', function()
+            Snacks.picker.lsp_declarations()
+        end, opts('Go to declaration'))
+        set('n', 'gi', function()
+            Snacks.picker.lsp_implementations()
+        end, opts('Go to implementation'))
+        set('n', 'gr', function()
+            Snacks.picker.lsp_references()
+        end, opts('Go to references'))
+        set('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
+        set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts('Code Actions'))
+        set('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
+        set('i', '<C-h>', vim.lsp.buf.signature_help, opts('Show Signature Help'))
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
