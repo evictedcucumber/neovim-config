@@ -270,14 +270,6 @@ return {
         opts = {},
     },
     {
-        'echasnovski/mini.starter',
-        version = '*',
-        event = 'VimEnter',
-        config = function()
-            require('me.configs.mini-starter')
-        end,
-    },
-    {
         'echasnovski/mini.indentscope',
         version = '*',
         event = { 'BufNewFile', 'BufReadPre' },
