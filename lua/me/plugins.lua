@@ -35,22 +35,8 @@ return {
     -- /colourscheme
     -- notifications
     {
-        'j-hui/fidget.nvim',
-        event = 'VeryLazy',
-        opts = {
-            progress = {
-                ignore_empty_message = true,
-            },
-            notification = {
-                override_vim_notify = false,
-                window = {
-                    winblend = 0,
-                },
-            },
-        },
-    },
-    {
         'folke/noice.nvim',
+        dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
         event = 'VeryLazy',
         opts = {
             cmdline = {
@@ -77,7 +63,6 @@ return {
             messages = { enabled = true, view = 'mini', view_error = 'mini', view_warn = 'mini' },
             presets = { lsp_doc_border = true },
         },
-        dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
     },
     -- /notifications
     -- tools
