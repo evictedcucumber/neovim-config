@@ -17,16 +17,6 @@ return {
                     CurSearch = { fg = 'base', bg = 'leaf', inherit = false },
                     Search = { fg = 'text', bg = 'leaf', blend = 20, inherit = false },
                     NotifyBackground = { bg = '#000000', inherit = true },
-                    TelescopeBorder = { fg = 'overlay', bg = 'overlay' },
-                    TelescopeNormal = { fg = 'subtle', bg = 'overlay' },
-                    TelescopeSelection = { fg = 'text', bg = 'highlight_med' },
-                    TelescopeSelectionCaret = { fg = 'love', bg = 'highlight_med' },
-                    TelescopeMultiSelection = { fg = 'text', bg = 'highlight_high' },
-                    TelescopeTitle = { fg = 'base', bg = 'love' },
-                    TelescopePromptTitle = { fg = 'base', bg = 'pine' },
-                    TelescopePreviewTitle = { fg = 'base', bg = 'iris' },
-                    TelescopePromptNormal = { fg = 'text', bg = 'surface' },
-                    TelescopePromptBorder = { fg = 'surface', bg = 'surface' },
                 },
             })
             vim.cmd('colorscheme rose-pine-main')
@@ -181,19 +171,16 @@ return {
         opts = {},
     },
     -- /conform
-    -- telescope
+    -- snacks
     {
-        'nvim-telescope/telescope.nvim',
-        dependencies = {
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-            'nvim-telescope/telescope-ui-select.nvim',
-        },
-        event = 'VeryLazy',
+        'folke/snacks.nvim',
+        priority = 1000,
+        lazy = false,
         config = function()
-            require('me.configs.telescope')
+            require('me.configs.snacks')
         end,
     },
-    -- /telescope
+    -- /snacks
     -- harpoon
     {
         'ThePrimeagen/harpoon',
@@ -266,14 +253,6 @@ return {
         version = '*',
         event = { 'BufNewFile', 'BufReadPre' },
         opts = {},
-    },
-    {
-        'echasnovski/mini.starter',
-        version = '*',
-        event = 'VimEnter',
-        config = function()
-            require('me.configs.mini-starter')
-        end,
     },
     {
         'echasnovski/mini.indentscope',
