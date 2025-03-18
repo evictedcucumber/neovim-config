@@ -288,4 +288,11 @@ return {
         end,
     },
     -- /bufferline
+    -- tpipeline
+    {
+        'vimpostor/vim-tpipeline',
+        dependencies = { 'lualine.nvim' },
+        lazy = false,
+    },
+    -- /tpipeline
 }
