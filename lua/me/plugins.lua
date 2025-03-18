@@ -244,7 +244,6 @@ return {
     {
         'echasnovski/mini.bracketed',
         version = '*',
-
         event = 'VeryLazy',
         opts = { treesitter = { suffix = '' } },
     },
@@ -253,14 +252,6 @@ return {
         version = '*',
         event = { 'BufNewFile', 'BufReadPre' },
         opts = {},
-    },
-    {
-        'echasnovski/mini.indentscope',
-        version = '*',
-        event = { 'BufNewFile', 'BufReadPre' },
-        config = function()
-            require('me.configs.mini-indentscope')
-        end,
     },
     {
         'echasnovski/mini.files',

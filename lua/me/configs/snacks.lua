@@ -85,6 +85,12 @@ require('snacks').setup({
     notifier = {
         timeout = 2500,
     },
+    indent = {
+        animate = { enabled = false },
+        scope = {
+            hl = 'SnacksIndent6',
+        },
+    },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
