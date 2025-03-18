@@ -82,6 +82,9 @@ require('snacks').setup({
             { section = 'startup' },
         },
     },
+    notifier = {
+        timeout = 2500,
+    },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
