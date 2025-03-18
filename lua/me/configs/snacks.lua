@@ -91,6 +91,7 @@ require('snacks').setup({
             hl = 'SnacksIndent6',
         },
     },
+    quickfile = { enabled = true },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
