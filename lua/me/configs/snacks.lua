@@ -92,6 +92,7 @@ require('snacks').setup({
         },
     },
     quickfile = { enabled = true },
+    statuscolumn = { enabled = true },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
