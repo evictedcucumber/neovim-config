@@ -142,3 +142,5 @@ lspconfig.clangd.setup({
 })
 
 lspconfig.cmake.setup({ capabilities = capabilities })
+
+lspconfig.bashls.setup({ capabilities = capabilities })
