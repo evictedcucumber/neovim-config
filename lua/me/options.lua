@@ -80,6 +80,9 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- project local settings
+vim.opt.exrc = true
+
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = _G.custom_augroup('highlight_yank'),
     callback = function()
