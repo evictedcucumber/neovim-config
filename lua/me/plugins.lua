@@ -171,6 +171,20 @@ return {
         opts = {},
     },
     -- /conform
+    -- lint
+    {
+        'mfussenegger/nvim-lint',
+        event = { 'BufReadPre', 'BufNewFile' },
+        config = function()
+            require('me.configs.lint')
+        end,
+    },
+    {
+        'rshkarin/mason-nvim-lint',
+        dependencies = { 'mason.nvim', 'nvim-lint' },
+        opts = {},
+    },
+    -- /lint
     -- snacks
     {
         'folke/snacks.nvim',
