@@ -5,6 +5,7 @@ conform.setup({
         lua = { 'stylua' },
         cpp = { 'clang-format' },
         cmake = { 'cmake_format' },
+        bash = { 'shfmt' },
     },
 })
 
