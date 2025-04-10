@@ -15,7 +15,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- enable colour column
-vim.opt.colorcolumn = '100'
+vim.opt.colorcolumn = '80'
 
 -- configure tabbing
 vim.opt.tabstop = 4
