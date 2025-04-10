@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         set('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
         set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts('Code Actions'))
         set('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
-        set('i', '<C-h>', vim.lsp.buf.signature_help, opts('Show Signature Help'))
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
@@ -85,11 +84,7 @@ vim.diagnostic.config({
     },
 })
 
-local capabilities = vim.tbl_deep_extend(
-    'force',
-    vim.lsp.protocol.make_client_capabilities(),
-    require('cmp_nvim_lsp').default_capabilities()
-)
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 local lspconfig = require('lspconfig')
 

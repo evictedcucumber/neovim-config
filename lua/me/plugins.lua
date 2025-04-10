@@ -47,7 +47,6 @@ return {
                 override = {
                     ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
                     ['vim.lsp.util.stylize_markdown'] = true,
-                    ['cmp.entry.get_documentation'] = true,
                 },
             },
             messages = { enabled = true, view = 'mini', view_error = 'mini', view_warn = 'mini' },
@@ -74,29 +73,23 @@ return {
     -- completion
     {
         'L3MON4D3/LuaSnip',
+        version = 'v2.*',
         dependencies = { 'rafamadriz/friendly-snippets' },
-        build = 'make install_jsregexp',
     },
     {
-        'hrsh7th/nvim-cmp',
-        dependencies = {
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'saadparwaiz1/cmp_luasnip',
-            'onsails/lspkind.nvim',
-            'LuaSnip',
-        },
+        'saghen/blink.cmp',
+        version = '1.*',
+        dependencies = { 'LuaSnip' },
         event = { 'InsertEnter', 'CmdlineEnter' },
         config = function()
-            require('me.configs.cmp')
+            require('me.configs.blink')
         end,
     },
     -- /completion
     -- lsp
     {
         'neovim/nvim-lspconfig',
-        dependencies = { 'hrsh7th/cmp-nvim-lsp', 'mason-lspconfig.nvim' },
+        dependencies = { 'blink.cmp', 'mason-lspconfig.nvim' },
         event = { 'BufNewFile', 'BufReadPre' },
         config = function()
             require('me.configs.lsp')
