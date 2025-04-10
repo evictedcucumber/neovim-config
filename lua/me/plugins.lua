@@ -15,7 +15,12 @@ return {
                 },
                 highlight_groups = {
                     CurSearch = { fg = 'base', bg = 'leaf', inherit = false },
-                    Search = { fg = 'text', bg = 'leaf', blend = 20, inherit = false },
+                    Search = {
+                        fg = 'text',
+                        bg = 'leaf',
+                        blend = 20,
+                        inherit = false,
+                    },
                     NotifyBackground = { bg = '#000000', inherit = true },
                 },
             })
@@ -31,11 +36,17 @@ return {
         opts = {
             cmdline = {
                 view = 'cmdline',
-                format = { search_down = { view = 'cmdline' }, search_up = { view = 'cmdline' } },
+                format = {
+                    search_down = { view = 'cmdline' },
+                    search_up = { view = 'cmdline' },
+                },
             },
             routes = {
                 {
-                    filter = { event = 'notify', find = 'No information available' },
+                    filter = {
+                        event = 'notify',
+                        find = 'No information available',
+                    },
                     opts = { skip = true },
                 },
                 {
@@ -49,7 +60,12 @@ return {
                     ['vim.lsp.util.stylize_markdown'] = true,
                 },
             },
-            messages = { enabled = true, view = 'mini', view_error = 'mini', view_warn = 'mini' },
+            messages = {
+                enabled = true,
+                view = 'mini',
+                view_error = 'mini',
+                view_warn = 'mini',
+            },
             presets = { lsp_doc_border = true },
         },
     },
@@ -99,10 +115,22 @@ return {
         'folke/trouble.nvim',
         cmd = 'Trouble',
         keys = {
-            { '<leader>t', '<cmd>Trouble diagnostics toggle<CR>', desc = 'Trouble Toggle' },
-            { '[t', '<cmd>Trouble prev<CR>', desc = 'Previous Trouble Diagnostic' },
+            {
+                '<leader>t',
+                '<cmd>Trouble diagnostics toggle<CR>',
+                desc = 'Trouble Toggle',
+            },
+            {
+                '[t',
+                '<cmd>Trouble prev<CR>',
+                desc = 'Previous Trouble Diagnostic',
+            },
             { ']t', '<cmd>Trouble next<CR>', desc = 'Next Trouble Diagnostic' },
-            { '[T', '<cmd>Trouble first<CR>', desc = 'First Trouble Diagnostic' },
+            {
+                '[T',
+                '<cmd>Trouble first<CR>',
+                desc = 'First Trouble Diagnostic',
+            },
             { ']T', '<cmd>Trouble last<CR>', desc = 'Last Trouble Diagnostic' },
         },
         opts = {},
@@ -249,12 +277,6 @@ return {
         opts = {},
     },
     {
-        'echasnovski/mini.bracketed',
-        version = '*',
-        event = 'VeryLazy',
-        opts = { treesitter = { suffix = '' } },
-    },
-    {
         'echasnovski/mini.cursorword',
         version = '*',
         event = { 'BufNewFile', 'BufReadPre' },
@@ -263,7 +285,9 @@ return {
     {
         'echasnovski/mini.files',
         version = '*',
-        keys = { { '-', '<cmd>lua MiniFiles.open()<CR>', desc = 'File explorer' } },
+        keys = {
+            { '-', '<cmd>lua MiniFiles.open()<CR>', desc = 'File explorer' },
+        },
         opts = {},
     },
     -- /mini

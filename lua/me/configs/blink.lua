@@ -64,7 +64,10 @@ require('blink.cmp').setup({
         providers = {
             cmdline = {
                 min_keyword_length = function(ctx)
-                    if ctx.mode == 'cmdline' and string.find(ctx.line, ' ') == nil then
+                    if
+                        ctx.mode == 'cmdline'
+                        and string.find(ctx.line, ' ') == nil
+                    then
                         return 3
                     else
                         return 0

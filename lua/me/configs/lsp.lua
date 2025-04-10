@@ -19,7 +19,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
             Snacks.picker.lsp_references()
         end, opts('Go to references'))
         set('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
-        set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts('Code Actions'))
+        set(
+            { 'n', 'v' },
+            '<leader>ca',
+            vim.lsp.buf.code_action,
+            opts('Code Actions')
+        )
         set('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
@@ -48,11 +53,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         if client.server_capabilities.codeLensProvider then
             vim.lsp.codelens.refresh()
-            vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-                group = _G.custom_augroup('codelens_refresh'),
-                buffer = ev.buf,
-                callback = vim.lsp.codelens.refresh,
-            })
+            vim.api.nvim_create_autocmd(
+                { 'BufEnter', 'CursorHold', 'InsertLeave' },
+                {
+                    group = _G.custom_augroup('codelens_refresh'),
+                    buffer = ev.buf,
+                    callback = vim.lsp.codelens.refresh,
+                }
+            )
         end
     end,
 })
@@ -69,19 +77,7 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.HINT] = '󰌶 ',
         },
     },
-    virtual_text = {
-        source = 'if_many',
-        spacing = 2,
-        format = function(diagnostic)
-            local diagnostic_message = {
-                [vim.diagnostic.severity.ERROR] = diagnostic.message,
-                [vim.diagnostic.severity.WARN] = diagnostic.message,
-                [vim.diagnostic.severity.INFO] = diagnostic.message,
-                [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-        end,
-    },
+    virtual_text = true,
 })
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()

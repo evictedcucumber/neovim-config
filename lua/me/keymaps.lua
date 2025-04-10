@@ -6,7 +6,12 @@ vim.keymap.set('i', 'jj', '<ESC>', { desc = 'Quick Leave Insert Mode' })
 
 -- yank and paste
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Yank to Clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from Clipboard' })
+vim.keymap.set(
+    { 'n', 'v' },
+    '<leader>p',
+    '"+p',
+    { desc = 'Paste from Clipboard' }
+)
 vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Yank Line to Clipboard' })
 
 -- keep cursor in centre of window

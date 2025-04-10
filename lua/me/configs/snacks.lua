@@ -23,14 +23,24 @@ require('snacks').setup({
                     desc = 'Find Text',
                     action = ":lua Snacks.dashboard.pick('live_grep')",
                 },
-                { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+                {
+                    icon = ' ',
+                    key = 'n',
+                    desc = 'New File',
+                    action = ':ene | startinsert',
+                },
                 {
                     icon = ' ',
                     key = 'c',
                     desc = 'Config',
                     action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
                 },
-                { icon = ' ', key = 's', desc = 'Restore Session', section = 'session' },
+                {
+                    icon = ' ',
+                    key = 's',
+                    desc = 'Restore Session',
+                    section = 'session',
+                },
                 {
                     icon = '󰒲 ',
                     key = 'l',
