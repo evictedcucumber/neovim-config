@@ -7,6 +7,17 @@ require('snacks').setup({
             cwd_bonus = true,
             frecency = true,
         },
+        sources = {
+            files = {
+                hidden = true,
+                ignored = true,
+                exclude = {
+                    '**/.git',
+                    '**/.git/*',
+                    '**/*lock*',
+                },
+            },
+        },
     },
     dashboard = {
         preset = {
