@@ -1,22 +1,13 @@
 require('snacks').setup({
     picker = {
-        layout = {
-            preset = 'ivy',
-        },
+        layout = { preset = 'ivy' },
         matcher = {
             cwd_bonus = true,
             frecency = true,
         },
         sources = {
-            files = {
-                hidden = true,
-                ignored = true,
-                exclude = {
-                    '**/.git',
-                    '**/.git/*',
-                    '**/*lock*',
-                },
-            },
+            grep = { hidden = true },
+            files = { hidden = true },
         },
     },
     dashboard = {
@@ -103,36 +94,27 @@ require('snacks').setup({
             { section = 'startup' },
         },
     },
-    notifier = {
-        timeout = 2500,
-    },
+    notifier = { timeout = 2500 },
     indent = {
         animate = { enabled = false },
-        scope = {
-            hl = 'SnacksIndent6',
-        },
+        scope = { hl = 'SnacksIndent6' },
     },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
-    Snacks.picker.files({
-        hidden = true,
-    })
+    Snacks.picker.files()
 end, { desc = 'Search Files' })
+vim.keymap.set('n', '<leader>sg', function()
+    Snacks.picker.grep()
+end, { desc = 'Search with Grep' })
 vim.keymap.set('n', '<leader>sb', function()
     Snacks.picker.buffers({
         current = false,
         sort_lastused = true,
-        hidden = true,
     })
 end, { desc = 'Search Buffers' })
-vim.keymap.set('n', '<leader>sg', function()
-    Snacks.picker.grep({
-        hidden = true,
-    })
-end, { desc = 'Search with Grep' })
 vim.keymap.set('n', '<leader>ss', function()
     Snacks.picker.spelling()
 end, { desc = 'Spell Suggest' })
