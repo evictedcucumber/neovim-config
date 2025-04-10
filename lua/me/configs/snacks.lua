@@ -1,3 +1,5 @@
+local exclude = { '**/*lock*' }
+
 require('snacks').setup({
     picker = {
         layout = { preset = 'ivy' },
@@ -6,8 +8,14 @@ require('snacks').setup({
             frecency = true,
         },
         sources = {
-            grep = { hidden = true },
-            files = { hidden = true },
+            grep = {
+                hidden = true,
+                exclude = exclude,
+            },
+            files = {
+                hidden = true,
+                exclude = exclude,
+            },
         },
     },
     dashboard = {
