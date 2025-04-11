@@ -86,6 +86,7 @@ local lspconfig = require('lspconfig')
 
 lspconfig.lua_ls.setup({
     capabilities = capabilities,
+    filetypes = { 'lua' },
     settings = {
         Lua = {
             runtime = { version = 'LuaJIT' },
@@ -124,27 +125,21 @@ lspconfig.clangd.setup({
         completeUnimported = true,
         clangdFileStatus = true,
     },
+    filetypes = { 'cpp' },
 })
 
-lspconfig.cmake.setup({ capabilities = capabilities })
+lspconfig.cmake.setup({ capabilities = capabilities, filetypes = { 'cmake' } })
 
-lspconfig.bashls.setup({ capabilities = capabilities })
+lspconfig.bashls.setup({ capabilities = capabilities, filetypes = { 'bash' } })
 
-lspconfig.nil_ls.setup({ capabilities = capabilities })
+lspconfig.nil_ls.setup({ capabilities = capabilities, filetypes = { 'nix' } })
 
 lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
+    filetypes = { 'rust' },
     settings = {
         ['rust-analyzer'] = {
-            check = { command = 'clippy' },
-            imports = {
-                granularity = { group = 'module' },
-                prefix = 'self',
-            },
-            cargo = {
-                buildScripts = { enable = true },
-            },
-            procMacro = { enable = true },
+            cargo = { allFeatures = true },
         },
     },
 })
