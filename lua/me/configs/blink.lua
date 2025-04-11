@@ -1,40 +1,49 @@
 require('blink.cmp').setup({
     completion = {
+        accept = { create_undo_point = true },
         list = {
-            selection = {
-                preselect = true,
-            },
             cycle = {
                 from_bottom = false,
                 from_top = false,
             },
         },
         menu = {
+            enabled = true,
+            border = 'rounded',
+            winblend = vim.o.pumblend,
             scrolloff = 4,
             scrollbar = false,
             draw = {
                 columns = {
-                    { 'label', 'label_description', gap = 1 },
                     { 'kind_icon' },
+                    { 'label', 'label_description', gap = 1 },
                 },
             },
         },
         documentation = {
             auto_show = true,
-        },
-        ghost_text = {
-            enabled = true,
+            auto_show_delay_ms = 0,
+            window = {
+                border = 'rounded',
+            },
         },
     },
     signature = {
         enabled = true,
+        window = {
+            border = 'rounded',
+            winblend = vim.o.pumblend,
+            treesitter_highlighting = true,
+        },
     },
     fuzzy = {
         implementation = 'rust',
+        use_frecency = true,
+        use_proximity = true,
     },
     cmdline = {
         keymap = {
-            preset = 'inherit',
+            preset = 'cmdline',
         },
         completion = {
             menu = {
