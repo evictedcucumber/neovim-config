@@ -88,18 +88,11 @@ lspconfig.lua_ls.setup({
     capabilities = capabilities,
     settings = {
         Lua = {
-            workspace = {
-                checkThirdParty = false,
-            },
-            codeLens = {
-                enable = true,
-            },
-            completion = {
-                callSnippet = 'Replace',
-            },
-            doc = {
-                privateName = { '^_' },
-            },
+            runtime = { version = 'LuaJIT' },
+            workspace = { checkThirdParty = false },
+            codeLens = { enable = true },
+            completion = { callSnippet = 'Replace' },
+            doc = { privateName = { '^_' } },
             hint = {
                 enable = true,
                 setType = false,
@@ -108,6 +101,7 @@ lspconfig.lua_ls.setup({
                 semicolon = 'Disable',
                 arrayIndex = 'Disable',
             },
+            telemetry = { enable = false },
         },
     },
 })
@@ -137,3 +131,20 @@ lspconfig.cmake.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 
 lspconfig.nil_ls.setup({ capabilities = capabilities })
+
+lspconfig.rust_analyzer.setup({
+    capabilities = capabilities,
+    settings = {
+        ['rust-analyzer'] = {
+            check = { command = 'clippy' },
+            imports = {
+                granularity = { group = 'module' },
+                prefix = 'self',
+            },
+            cargo = {
+                buildScripts = { enable = true },
+            },
+            procMacro = { enable = true },
+        },
+    },
+})

@@ -8,9 +8,13 @@ return {
     {
         'rose-pine/neovim',
         name = 'rose-pine',
+        init = function()
+            vim.cmd('colorscheme rose-pine-main')
+        end,
         config = function()
             require('rose-pine').setup({
                 styles = {
+                    italic = false,
                     transparency = true,
                 },
                 highlight_groups = {
@@ -24,7 +28,6 @@ return {
                     NotifyBackground = { bg = '#000000', inherit = true },
                 },
             })
-            vim.cmd('colorscheme rose-pine-main')
         end,
     },
     -- /colourscheme
@@ -138,7 +141,7 @@ return {
     {
         'folke/lazydev.nvim',
         ft = 'lua',
-        opts = {},
+        opts = { library = { 'snacks.nvim' } },
     },
     -- /lsp
     -- treesitter
@@ -317,43 +320,4 @@ return {
         lazy = false,
     },
     -- /tpipeline
-    -- languages
-    {
-        'mrcjkb/rustaceanvim',
-        version = '^6',
-        dependencies = { 'blink.cmp' },
-        ft = { 'rust' },
-        init = function()
-            vim.g.rustaceanvim = {
-                server = {
-                    capabilities = require('blink.cmp').get_lsp_capabilities(
-                        nil,
-                        true
-                    ),
-                },
-                default_settings = {
-                    ['rust-analyzer'] = {
-                        check = {
-                            command = 'clippy',
-                        },
-                        imports = {
-                            granularity = {
-                                group = 'module',
-                            },
-                            prefix = 'self',
-                        },
-                        cargo = {
-                            buildScripts = {
-                                enable = true,
-                            },
-                        },
-                        procMacro = {
-                            enable = true,
-                        },
-                    },
-                },
-            }
-        end,
-    },
-    -- /languages
 }
