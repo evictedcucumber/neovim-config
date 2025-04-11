@@ -26,6 +26,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
             opts('Code Actions')
         )
         set('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
+        set('n', '<C-f>', function()
+            require('noice.lsp').scroll(4)
+        end, opts('Scroll Down Hover Documentation'))
+        set('n', '<C-b>', function()
+            require('noice.lsp').scroll(-4)
+        end, opts('Scroll Up Hover Documentation'))
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
