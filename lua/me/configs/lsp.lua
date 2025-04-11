@@ -157,3 +157,4 @@ lspconfig.rust_analyzer.setup({
         },
     },
 })
+lspconfig.nil_ls.setup({ capabilities = capabilities })

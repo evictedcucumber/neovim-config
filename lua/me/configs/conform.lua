@@ -6,6 +6,7 @@ conform.setup({
         cpp = { 'clang-format' },
         cmake = { 'cmake_format' },
         bash = { 'shfmt' },
+        nix = { 'nixfmt' },
     },
 })
 
