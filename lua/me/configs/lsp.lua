@@ -80,7 +80,7 @@ vim.diagnostic.config({
     virtual_text = true,
 })
 
-local capabilities = require('blink.cmp').get_lsp_capabilities()
+local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
 local lspconfig = require('lspconfig')
 
@@ -136,25 +136,4 @@ lspconfig.cmake.setup({ capabilities = capabilities })
 
 lspconfig.bashls.setup({ capabilities = capabilities })
 
-lspconfig.rust_analyzer.setup({
-    capabilities = capabilities,
-    settings = {
-        ['rust-analyzer'] = {
-            imports = {
-                granularity = {
-                    group = 'module',
-                },
-                prefix = 'self',
-            },
-            cargo = {
-                buildScripts = {
-                    enable = true,
-                },
-            },
-            procMacro = {
-                enable = true,
-            },
-        },
-    },
-})
 lspconfig.nil_ls.setup({ capabilities = capabilities })

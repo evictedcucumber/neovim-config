@@ -317,4 +317,43 @@ return {
         lazy = false,
     },
     -- /tpipeline
+    -- languages
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^6',
+        dependencies = { 'blink.cmp' },
+        ft = { 'rust' },
+        init = function()
+            vim.g.rustaceanvim = {
+                server = {
+                    capabilities = require('blink.cmp').get_lsp_capabilities(
+                        nil,
+                        true
+                    ),
+                },
+                default_settings = {
+                    ['rust-analyzer'] = {
+                        check = {
+                            command = 'clippy',
+                        },
+                        imports = {
+                            granularity = {
+                                group = 'module',
+                            },
+                            prefix = 'self',
+                        },
+                        cargo = {
+                            buildScripts = {
+                                enable = true,
+                            },
+                        },
+                        procMacro = {
+                            enable = true,
+                        },
+                    },
+                },
+            }
+        end,
+    },
+    -- /languages
 }
