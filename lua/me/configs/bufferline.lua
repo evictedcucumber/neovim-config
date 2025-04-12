@@ -1,4 +1,4 @@
-local highlights = require('rose-pine.plugins.bufferline')
+local highlights = require('catppuccin.groups.integrations.bufferline').get()
 
 require('bufferline').setup({
     options = {

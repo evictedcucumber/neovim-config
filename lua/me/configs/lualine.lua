@@ -3,7 +3,7 @@ local showmode = require('noice').api.status.mode
 require('lualine').setup({
     options = {
         icons_enabled = true,
-        theme = 'rose-pine',
+        theme = 'catppuccin',
     },
     sections = {
         lualine_a = { 'mode' },

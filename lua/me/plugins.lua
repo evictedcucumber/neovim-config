@@ -6,29 +6,39 @@ return {
     -- /globals
     -- colourscheme
     {
-        'rose-pine/neovim',
-        name = 'rose-pine',
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        priority = 1000,
         init = function()
-            vim.cmd('colorscheme rose-pine-main')
+            vim.cmd('colorscheme catppuccin')
         end,
-        config = function()
-            require('rose-pine').setup({
-                styles = {
-                    italic = false,
-                    transparency = true,
-                },
-                highlight_groups = {
-                    CurSearch = { fg = 'base', bg = 'leaf', inherit = false },
-                    Search = {
-                        fg = 'text',
-                        bg = 'leaf',
-                        blend = 20,
-                        inherit = false,
+        opts = {
+            flavour = 'mocha',
+            background = { dark = 'mocha' },
+            show_end_of_buffer = true,
+            default_integrations = true,
+            integrations = {
+                gitsigns = true,
+                treesitter = true,
+                mini = { enabled = true },
+                blink_cmp = true,
+                harpoon = true,
+                mason = true,
+                noice = true,
+                native_lsp = {
+                    enabled = true,
+                    inlay_hint = {
+                        background = true,
                     },
-                    NotifyBackground = { bg = '#000000', inherit = true },
                 },
-            })
-        end,
+                notify = true,
+                snacks = {
+                    enabled = true,
+                    indent_scope_color = 'lavender',
+                },
+                lsp_trouble = true,
+            },
+        },
     },
     -- /colourscheme
     -- notifications
