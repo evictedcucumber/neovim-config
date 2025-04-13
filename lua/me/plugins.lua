@@ -108,6 +108,11 @@ return {
         opts = {},
     },
     {
+        'j-hui/fidget.nvim',
+        event = { 'LspAttach' },
+        opts = {},
+    },
+    {
         'folke/lazydev.nvim',
         ft = 'lua',
         opts = { library = { 'snacks.nvim' } },
