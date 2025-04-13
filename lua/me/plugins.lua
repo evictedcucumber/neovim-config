@@ -306,16 +306,15 @@ return {
         },
         opts = {},
     },
-    -- /mini
-    -- lualine
     {
-        'nvim-lualine/lualine.nvim',
-        event = 'VimEnter',
+        'echasnovski/mini.statusline',
+        version = '*',
+        event = { 'VeryLazy' },
         config = function()
-            require('me.configs.lualine')
+            require('me.configs.statusline')
         end,
     },
-    -- /lualine
+    -- /mini
     -- bufferline
     {
         'akinsho/bufferline.nvim',
