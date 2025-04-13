@@ -18,6 +18,7 @@ return {
             show_end_of_buffer = true,
             default_integrations = true,
             integrations = {
+                which_key = true,
                 gitsigns = true,
                 treesitter = true,
                 mini = { enabled = true },
@@ -326,10 +327,22 @@ return {
     },
     -- /bufferline
     -- tpipeline
+    -- whichkey
     {
         'vimpostor/vim-tpipeline',
         dependencies = { 'lualine.nvim' },
         lazy = false,
+        'folke/which-key.nvim',
+        event = 'VeryLazy',
+        opts = {
+            preset = 'helix',
+            win = {
+                wo = {
+                    winblend = 100,
+                },
+            },
+        },
     },
     -- /tpipeline
+    -- /whichkey
 }
