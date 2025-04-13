@@ -108,7 +108,8 @@ require('snacks').setup({
         scope = { hl = 'SnacksIndent6' },
     },
     quickfile = { enabled = true },
-    statuscolumn = { enabled = true },
+    scroll = { enabled = true },
+    input = { enabled = true },
 })
 
 vim.keymap.set('n', '<leader>sf', function()
