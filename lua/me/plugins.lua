@@ -326,12 +326,8 @@ return {
         end,
     },
     -- /bufferline
-    -- tpipeline
     -- whichkey
     {
-        'vimpostor/vim-tpipeline',
-        dependencies = { 'lualine.nvim' },
-        lazy = false,
         'folke/which-key.nvim',
         event = 'VeryLazy',
         opts = {
@@ -343,6 +339,5 @@ return {
             },
         },
     },
-    -- /tpipeline
     -- /whichkey
 }
