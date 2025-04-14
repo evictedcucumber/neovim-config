@@ -1,4 +1,8 @@
-local exclude = { '**/*lock*' }
+local exclude = {
+    '**/*.lock',
+    '**/build/',
+    '**/.cache/',
+}
 
 require('snacks').setup({
     picker = {
