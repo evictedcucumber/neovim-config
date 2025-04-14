@@ -53,7 +53,7 @@ return {
         'williamboman/mason-lspconfig.nvim',
         dependencies = { 'mason.nvim' },
         opts = {
-            automatic_installation = true,
+            automatic_installation = { exlude = { 'clangd' } },
         },
         lazy = true,
     },
