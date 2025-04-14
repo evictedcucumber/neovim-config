@@ -39,6 +39,9 @@ return {
                 },
                 lsp_trouble = true,
             },
+            custom_highlights = function(colors)
+                return { NormalFloat = { fg = colors.text, bg = colors.none } }
+            end,
         },
     },
     -- /colourscheme
