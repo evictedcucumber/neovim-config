@@ -2,6 +2,7 @@ local exclude = {
     '**/*.lock',
     '**/build/',
     '**/.cache/',
+    '**/target/',
 }
 
 require('snacks').setup({
