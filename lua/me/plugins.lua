@@ -263,14 +263,6 @@ return {
         opts = {},
     },
     {
-        'echasnovski/mini.files',
-        version = '*',
-        keys = {
-            { '-', '<cmd>lua MiniFiles.open()<CR>', desc = 'File explorer' },
-        },
-        opts = {},
-    },
-    {
         'echasnovski/mini.statusline',
         version = '*',
         event = { 'VeryLazy' },
@@ -303,4 +295,19 @@ return {
         },
     },
     -- /whichkey
+    -- yazi
+    {
+        'mikavilpas/yazi.nvim',
+        dependencies = { 'snacks.nvim' },
+        event = { 'VeryLazy' },
+        keys = {
+            { '-', '<CMD>Yazi cwd<CR>', desc = 'Open Yazi in CWD' },
+            { '_', '<CMD>Yazi<CR>', desc = 'Open Yazi at current file' },
+        },
+        opts = { open_for_directories = true },
+        init = function()
+            vim.g.loaded_netrwPlugin = 1
+        end,
+    },
+    -- /yazi
 }
