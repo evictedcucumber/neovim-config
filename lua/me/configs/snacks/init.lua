@@ -30,7 +30,6 @@ require('snacks').setup({
         scope = { hl = 'SnacksIndent6' },
     },
     quickfile = { enabled = true },
-    scroll = { enabled = true },
     input = { enabled = true },
 })
 
