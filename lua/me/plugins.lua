@@ -186,7 +186,7 @@ return {
             setup_linter('lua')
 
             vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
-                group = _G.custom_augroup('Lint'),
+                group = vim.g.custom_augroup('Lint'),
                 callback = function()
                     lint.try_lint()
                 end,

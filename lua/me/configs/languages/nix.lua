@@ -1,12 +1,11 @@
 local M = {}
 
 M.lsp = function()
-    vim.lsp.config('nixd', {
+    vim.g.setup_lsp('nixd', {
         settings = {
             nixd = { formatting = { command = { 'alejandra' } } },
         },
     })
-    vim.lsp.enable('nixd')
 end
 
 return M

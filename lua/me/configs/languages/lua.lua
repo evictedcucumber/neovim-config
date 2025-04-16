@@ -1,7 +1,7 @@
 local M = {}
 
 M.lsp = function()
-    vim.lsp.config('lua_ls', {
+    vim.g.setup_lsp('lua_ls', {
         settings = {
             Lua = {
                 runtime = { version = 'LuaJIT' },
@@ -21,7 +21,6 @@ M.lsp = function()
             },
         },
     })
-    vim.lsp.enable('lua_ls')
 end
 
 M.formatter = function(conform)
