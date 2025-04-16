@@ -53,6 +53,7 @@ end
 
 lsp_setup('nix')
 lsp_setup('lua')
+lsp_setup('rust')
 
 -- lspconfig.clangd.setup({
 --     capabilities = vim.tbl_deep_extend('force', capabilities, {
@@ -78,13 +79,3 @@ lsp_setup('lua')
 -- lspconfig.cmake.setup({ capabilities = capabilities, filetypes = { 'cmake' } })
 --
 -- lspconfig.bashls.setup({ capabilities = capabilities, filetypes = { 'bash' } })
---
--- lspconfig.rust_analyzer.setup({
---     capabilities = capabilities,
---     filetypes = { 'rust' },
---     settings = {
---         ['rust-analyzer'] = {
---             cargo = { allFeatures = true },
---         },
---     },
--- })
