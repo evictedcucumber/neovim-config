@@ -1,76 +1,3 @@
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = _G.custom_augroup('lsp_attach'),
-    callback = function(ev)
-        local function opts(desc)
-            return { buffer = ev.buf, desc = desc }
-        end
-
-        local set = vim.keymap.set
-        set('n', 'gd', function()
-            Snacks.picker.lsp_definitions()
-        end, opts('Go to definition'))
-        set('n', 'gD', function()
-            Snacks.picker.lsp_declarations()
-        end, opts('Go to declaration'))
-        set('n', 'gi', function()
-            Snacks.picker.lsp_implementations()
-        end, opts('Go to implementation'))
-        set('n', 'gr', function()
-            Snacks.picker.lsp_references()
-        end, opts('Go to references'))
-        set('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
-        set(
-            { 'n', 'v' },
-            '<leader>ca',
-            vim.lsp.buf.code_action,
-            opts('Code Actions')
-        )
-        set('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
-        set('n', '<C-f>', function()
-            require('noice.lsp').scroll(4)
-        end, opts('Scroll Down Hover Documentation'))
-        set('n', '<C-b>', function()
-            require('noice.lsp').scroll(-4)
-        end, opts('Scroll Up Hover Documentation'))
-
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
-        if not client then
-            return
-        end
-
-        if client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                group = _G.custom_augroup('document_highlight'),
-                buffer = ev.buf,
-                callback = vim.lsp.buf.document_highlight,
-            })
-
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-                group = _G.custom_augroup('clear_references'),
-                buffer = ev.buf,
-                callback = vim.lsp.buf.clear_references,
-            })
-        end
-
-        if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
-        end
-
-        if client.server_capabilities.codeLensProvider then
-            vim.lsp.codelens.refresh()
-            vim.api.nvim_create_autocmd(
-                { 'BufEnter', 'CursorHold', 'InsertLeave' },
-                {
-                    group = _G.custom_augroup('codelens_refresh'),
-                    buffer = ev.buf,
-                    callback = vim.lsp.codelens.refresh,
-                }
-            )
-        end
-    end,
-})
-
 vim.diagnostic.config({
     severity_sort = true,
     float = { border = 'rounded', source = 'if_many' },
@@ -86,66 +13,78 @@ vim.diagnostic.config({
     virtual_text = true,
 })
 
+local on_attach = function(_, bufnr)
+    local function opts(desc)
+        return { buffer = bufnr, desc = desc }
+    end
+
+    local map = vim.keymap.set
+    map('n', 'gd', function()
+        Snacks.picker.lsp_definitions()
+    end, opts('Go to definition'))
+    map('n', 'gD', function()
+        Snacks.picker.lsp_declarations()
+    end, opts('Go to declaration'))
+    map('n', 'gi', function()
+        Snacks.picker.lsp_implementations()
+    end, opts('Go to implementation'))
+    map('n', 'gr', function()
+        Snacks.picker.lsp_references()
+    end, opts('Go to references'))
+    map('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
+    map(
+        { 'n', 'v' },
+        '<leader>ca',
+        vim.lsp.buf.code_action,
+        opts('Code Actions')
+    )
+    map('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
+    map('n', '<C-f>', function() end, opts('Scroll Down Hover Documentation'))
+    map('n', '<C-b>', function() end, opts('Scroll Up Hover Documentation'))
+end
+
 local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
-local lspconfig = require('lspconfig')
+vim.lsp.config('*', { capabilities = capabilities, on_attach = on_attach })
 
-lspconfig.lua_ls.setup({
-    capabilities = capabilities,
-    filetypes = { 'lua' },
-    settings = {
-        Lua = {
-            runtime = { version = 'LuaJIT' },
-            workspace = { checkThirdParty = false },
-            codeLens = { enable = true },
-            completion = { callSnippet = 'Replace' },
-            doc = { privateName = { '^_' } },
-            hint = {
-                enable = true,
-                setType = false,
-                paramType = true,
-                paramName = 'Disable',
-                semicolon = 'Disable',
-                arrayIndex = 'Disable',
-            },
-            telemetry = { enable = false },
-        },
-    },
-})
+local lsp_setup = function(language)
+    require('me.configs.languages.' .. language).lsp()
+end
 
-lspconfig.clangd.setup({
-    capabilities = vim.tbl_deep_extend('force', capabilities, {
-        offsetEncoding = { 'utf-16' },
-    }),
-    cmd = {
-        'clangd',
-        '--background-index',
-        '--clang-tidy',
-        '--header-insertion=iwyu',
-        '--completion-style=detailed',
-        '--function-arg-placeholders',
-        '--fallback-style=llvm',
-    },
-    init_options = {
-        usePlaceholders = true,
-        completeUnimported = true,
-        clangdFileStatus = true,
-    },
-    filetypes = { 'cpp' },
-})
+lsp_setup('nix')
+lsp_setup('lua')
 
-lspconfig.cmake.setup({ capabilities = capabilities, filetypes = { 'cmake' } })
-
-lspconfig.bashls.setup({ capabilities = capabilities, filetypes = { 'bash' } })
-
-lspconfig.nil_ls.setup({ capabilities = capabilities, filetypes = { 'nix' } })
-
-lspconfig.rust_analyzer.setup({
-    capabilities = capabilities,
-    filetypes = { 'rust' },
-    settings = {
-        ['rust-analyzer'] = {
-            cargo = { allFeatures = true },
-        },
-    },
-})
+-- lspconfig.clangd.setup({
+--     capabilities = vim.tbl_deep_extend('force', capabilities, {
+--         offsetEncoding = { 'utf-16' },
+--     }),
+--     cmd = {
+--         'clangd',
+--         '--background-index',
+--         '--clang-tidy',
+--         '--header-insertion=iwyu',
+--         '--completion-style=detailed',
+--         '--function-arg-placeholders',
+--         '--fallback-style=llvm',
+--     },
+--     init_options = {
+--         usePlaceholders = true,
+--         completeUnimported = true,
+--         clangdFileStatus = true,
+--     },
+--     filetypes = { 'cpp' },
+-- })
+--
+-- lspconfig.cmake.setup({ capabilities = capabilities, filetypes = { 'cmake' } })
+--
+-- lspconfig.bashls.setup({ capabilities = capabilities, filetypes = { 'bash' } })
+--
+-- lspconfig.rust_analyzer.setup({
+--     capabilities = capabilities,
+--     filetypes = { 'rust' },
+--     settings = {
+--         ['rust-analyzer'] = {
+--             cargo = { allFeatures = true },
+--         },
+--     },
+-- })

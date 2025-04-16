@@ -24,7 +24,6 @@ return {
                 mini = { enabled = true },
                 blink_cmp = true,
                 harpoon = true,
-                mason = true,
                 noice = true,
                 native_lsp = {
                     enabled = true,
@@ -45,22 +44,6 @@ return {
         },
     },
     -- /colourscheme
-    -- tools
-    {
-        'williamboman/mason.nvim',
-        cmd = { 'Mason', 'MasonInstall' },
-        opts = {},
-        lazy = true,
-    },
-    {
-        'williamboman/mason-lspconfig.nvim',
-        dependencies = { 'mason.nvim' },
-        opts = {
-            automatic_installation = { exlude = { 'clangd' } },
-        },
-        lazy = true,
-    },
-    -- /tools
     -- completion
     {
         'L3MON4D3/LuaSnip',
@@ -70,7 +53,7 @@ return {
     {
         'saghen/blink.cmp',
         version = '1.*',
-        dependencies = { 'LuaSnip' },
+        dependencies = { 'LuaSnip', 'nvim-lspconfig' },
         event = { 'InsertEnter', 'CmdlineEnter' },
         config = function()
             require('me.configs.blink')
@@ -80,8 +63,7 @@ return {
     -- lsp
     {
         'neovim/nvim-lspconfig',
-        dependencies = { 'blink.cmp', 'mason-lspconfig.nvim' },
-        event = { 'BufNewFile', 'BufReadPre' },
+        event = { 'BufNewFile', 'BufReadPost' },
         config = function()
             require('me.configs.lsp')
         end,
@@ -162,14 +144,32 @@ return {
         'stevearc/conform.nvim',
         event = { 'BufWritePre' },
         cmd = { 'ConformInfo' },
+        keys = {
+            {
+                '<leader>fm',
+                function()
+                    require('conform').format({
+                        async = true,
+                        timeout_ms = 3000,
+                        lsp_format = 'fallback',
+                    })
+                end,
+                desc = 'Format current buffer',
+            },
+        },
         config = function()
-            require('me.configs.conform')
+            local conform = require('conform')
+            conform.setup({})
+
+            local setup_formatter = function(language)
+                require('me.configs.languages.' .. language).formatter(conform)
+            end
+
+            setup_formatter('lua')
         end,
-    },
-    {
-        'zapling/mason-conform.nvim',
-        dependencies = { 'mason.nvim', 'conform.nvim' },
-        opts = {},
+        init = function()
+            vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+        end,
     },
     -- /conform
     -- lint
@@ -177,13 +177,21 @@ return {
         'mfussenegger/nvim-lint',
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
-            require('me.configs.lint')
+            local lint = require('lint')
+
+            local setup_linter = function(language)
+                require('me.configs.languages.' .. language).linter(lint)
+            end
+
+            setup_linter('lua')
+
+            vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
+                group = _G.custom_augroup('Lint'),
+                callback = function()
+                    lint.try_lint()
+                end,
+            })
         end,
-    },
-    {
-        'rshkarin/mason-nvim-lint',
-        dependencies = { 'mason.nvim', 'nvim-lint' },
-        opts = {},
     },
     -- /lint
     -- snacks

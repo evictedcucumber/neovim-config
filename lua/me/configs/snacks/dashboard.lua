@@ -37,12 +37,6 @@ M.preset = {
             desc = 'Lazy',
             action = ':Lazy',
         },
-        {
-            icon = ' ',
-            key = 'm',
-            desc = 'Mason',
-            action = ':Mason',
-        },
         { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
     },
 }
