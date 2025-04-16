@@ -10,19 +10,13 @@
       };
     in {
       devShells.${system}.default = pkgs.mkShell {
+        name = "neovim-config";
         packages = with pkgs; [
-          zsh
           stylua
           luajitPackages.luacheck
           lua-language-server
           pre-commit
         ];
-
-        shellHook = ''
-          if [[ "$(basename "$0")" != "zsh" ]]; then
-              exec ${pkgs.zsh}/bin/zsh -l
-          fi
-        '';
       };
 
     };
