@@ -10,7 +10,13 @@
       };
     in {
       devShells.${system}.default = pkgs.mkShell {
-        packages = with pkgs; [ zsh stylua luajitPackages.luacheck pre-commit ];
+        packages = with pkgs; [
+          zsh
+          stylua
+          luajitPackages.luacheck
+          lua-language-server
+          pre-commit
+        ];
 
         shellHook = ''
           if [[ "$(basename "$0")" != "zsh" ]]; then
