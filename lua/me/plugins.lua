@@ -39,11 +39,49 @@ return {
                 lsp_trouble = true,
             },
             custom_highlights = function(colors)
-                return { NormalFloat = { fg = colors.text, bg = colors.none } }
+                return {
+                    NormalFloat = { fg = colors.text, bg = colors.none },
+                    Pmenu = { link = 'NormalFloat' },
+                    FloatBorder = { link = 'NormalFloat' },
+                }
             end,
         },
     },
     -- /colourscheme
+    -- notifications
+    {
+        'folke/noice.nvim',
+        dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
+        event = 'VeryLazy',
+        opts = {
+            cmdline = { view = 'cmdline' },
+            routes = {
+                {
+                    filter = {
+                        event = 'notify',
+                        find = 'No information available',
+                    },
+                    opts = { skip = true },
+                },
+            },
+            lsp = {
+                hover = { enabled = true },
+                override = {
+                    ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+                    ['vim.lsp.util.stylize_markdown'] = true,
+                },
+            },
+            signature = { enabled = false },
+            messages = {
+                enabled = true,
+                view = 'mini',
+                view_error = 'mini',
+                view_warn = 'mini',
+            },
+            presets = { lsp_doc_border = true },
+        },
+    },
+    -- /notifications
     -- completion
     {
         'L3MON4D3/LuaSnip',
@@ -90,11 +128,6 @@ return {
             },
             { ']T', '<cmd>Trouble last<CR>', desc = 'Last Trouble Diagnostic' },
         },
-        opts = {},
-    },
-    {
-        'j-hui/fidget.nvim',
-        event = { 'LspAttach' },
         opts = {},
     },
     {
@@ -274,15 +307,32 @@ return {
         event = { 'BufNewFile', 'BufReadPre' },
         opts = {},
     },
+    -- /mini
+    -- lualine
     {
-        'echasnovski/mini.statusline',
-        version = '*',
-        event = { 'VeryLazy' },
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'noice.nvim' },
+        event = 'VimEnter',
         config = function()
-            require('me.configs.statusline')
+            local showmode = require('noice').api.status.mode
+            require('lualine').setup({
+                options = { theme = 'catppuccin' },
+                sections = {
+                    lualine_a = { 'mode' },
+                    lualine_b = { 'branch' },
+                    lualine_c = { 'filename' },
+                    lualine_x = {
+                        ---@diagnostic disable-next-line:undefined-field
+                        { showmode.get, cond = showmode.has },
+                        'lsp_status',
+                    },
+                    lualine_y = { 'filetype' },
+                    lualine_z = { 'location' },
+                },
+            })
         end,
     },
-    -- /mini
+    -- /lualine
     -- bufferline
     {
         'akinsho/bufferline.nvim',

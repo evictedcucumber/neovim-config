@@ -24,7 +24,6 @@ require('snacks').setup({
             },
         },
     },
-    notifier = { timeout = 2500 },
     indent = {
         animate = { enabled = false },
         scope = { hl = 'SnacksIndent6' },
