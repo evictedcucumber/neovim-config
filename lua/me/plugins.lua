@@ -27,9 +27,7 @@ return {
                 noice = true,
                 native_lsp = {
                     enabled = true,
-                    inlay_hint = {
-                        background = true,
-                    },
+                    inlay_hint = { background = true },
                 },
                 notify = true,
                 snacks = {
@@ -90,7 +88,7 @@ return {
     },
     {
         'saghen/blink.cmp',
-        version = '1.*',
+        build = 'cargo build --release',
         dependencies = { 'LuaSnip', 'nvim-lspconfig' },
         event = { 'InsertEnter', 'CmdlineEnter' },
         config = function()

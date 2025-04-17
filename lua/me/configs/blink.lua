@@ -1,16 +1,10 @@
 require('blink.cmp').setup({
     completion = {
+        list = { selection = { preselect = false } },
         accept = { create_undo_point = true },
-        list = {
-            cycle = {
-                from_bottom = false,
-                from_top = false,
-            },
-        },
         menu = {
             enabled = true,
             border = 'rounded',
-            winblend = vim.o.pumblend,
             scrolloff = 4,
             scrollbar = false,
             draw = {
@@ -23,16 +17,13 @@ require('blink.cmp').setup({
         documentation = {
             auto_show = true,
             auto_show_delay_ms = 0,
-            window = {
-                border = 'rounded',
-            },
+            window = { border = 'rounded' },
         },
     },
     signature = {
         enabled = true,
         window = {
             border = 'rounded',
-            winblend = vim.o.pumblend,
             treesitter_highlighting = true,
         },
     },
@@ -43,9 +34,10 @@ require('blink.cmp').setup({
     },
     cmdline = {
         keymap = {
-            preset = 'cmdline',
+            preset = 'inherit',
         },
         completion = {
+            list = { selection = { preselect = false } },
             menu = {
                 auto_show = function()
                     return vim.fn.getcmdtype() == ':'
@@ -60,29 +52,12 @@ require('blink.cmp').setup({
         ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
         ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
         ['<C-e>'] = { 'cancel', 'hide', 'fallback' },
-        ['<C-c>'] = { 'show', 'fallback' },
+        ['<C-c>'] = { 'show', 'accept', 'fallback' },
         ['<C-h>'] = { 'show_signature', 'hide_signature', 'fallback' },
-        ['<CR>'] = { 'accept', 'fallback' },
         ['<Tab>'] = { 'snippet_forward', 'fallback' },
         ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
     },
     snippets = {
         preset = 'luasnip',
-    },
-    sources = {
-        providers = {
-            cmdline = {
-                min_keyword_length = function(ctx)
-                    if
-                        ctx.mode == 'cmdline'
-                        and string.find(ctx.line, ' ') == nil
-                    then
-                        return 3
-                    else
-                        return 0
-                    end
-                end,
-            },
-        },
     },
 })
