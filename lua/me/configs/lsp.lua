@@ -51,7 +51,7 @@ Me.setup_lsp('harper_ls', {
     settings = {
         ['harper-ls'] = {
             userDictPath = vim.fn.stdpath('cache')
-                .. 'harper-ls/dictionary.txt',
+                .. '/harper-ls/dictionary.txt',
             dialetc = 'British',
             linters = {
                 LinkingVerbs = true,
