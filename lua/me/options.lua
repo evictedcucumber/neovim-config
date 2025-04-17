@@ -61,10 +61,6 @@ vim.opt.inccommand = 'split'
 -- ensure lines are present above and below cursor
 vim.opt.scrolloff = 12
 
--- enable spellcheck
-vim.opt.spell = true
-vim.opt.spelllang = { 'en_us', 'en_gb' }
-
 -- configure timeout
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500

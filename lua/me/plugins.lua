@@ -162,7 +162,9 @@ return {
             conform.setup({})
 
             local setup_formatter = function(language)
-                require('me.configs.languages.' .. language).formatter(conform)
+                require('me.configs.languages.' .. language).formatter(
+                    conform.formatters_by_ft
+                )
             end
 
             setup_formatter('lua')
@@ -180,13 +182,15 @@ return {
             local lint = require('lint')
 
             local setup_linter = function(language)
-                require('me.configs.languages.' .. language).linter(lint)
+                require('me.configs.languages.' .. language).linter(
+                    lint.linters_by_ft
+                )
             end
 
             setup_linter('lua')
 
             vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
-                group = vim.g.custom_augroup('Lint'),
+                group = Me.custom_augroup('Lint'),
                 callback = function()
                     lint.try_lint()
                 end,

@@ -1,7 +1,10 @@
+---@class me.LspServer
 local M = {}
 
-M.lsp = function()
-    vim.g.setup_lsp('lua_ls', {
+M.lsp = function(capabilities, on_attach)
+    Me.setup_lsp('lua_ls', {
+        capabilities = capabilities,
+        on_attach = on_attach,
         settings = {
             Lua = {
                 runtime = { version = 'LuaJIT' },
@@ -23,12 +26,12 @@ M.lsp = function()
     })
 end
 
-M.formatter = function(conform)
-    conform.formatters_by_ft.lua = { 'stylua' }
+M.formatter = function(formatters_by_ft)
+    formatters_by_ft.lua = { 'stylua' }
 end
 
-M.linter = function(lint)
-    lint.linters_by_ft.lua = { 'luacheck' }
+M.linter = function(linters_by_ft)
+    linters_by_ft.lua = { 'luacheck' }
 end
 
 return M

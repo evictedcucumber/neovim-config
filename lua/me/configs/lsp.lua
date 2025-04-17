@@ -45,15 +45,34 @@ end
 
 local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
-vim.lsp.config('*', { capabilities = capabilities, on_attach = on_attach })
+Me.setup_lsp('harper_ls', {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        ['harper-ls'] = {
+            userDictPath = vim.fn.stdpath('cache')
+                .. 'harper-ls/dictionary.txt',
+            dialetc = 'British',
+            linters = {
+                LinkingVerbs = true,
+                BoringWords = true,
+                UseGenitive = true,
+                SpelledNumbers = true,
+            },
+            markdown = {
+                IgnoreLinkTitle = true,
+            },
+        },
+    },
+})
 
-local lsp_setup = function(language)
-    require('me.configs.languages.' .. language).lsp()
+local lsp = function(language)
+    require('me.configs.languages.' .. language).lsp(capabilities, on_attach)
 end
 
-lsp_setup('nix')
-lsp_setup('lua')
-lsp_setup('rust')
+lsp('nix')
+lsp('lua')
+lsp('rust')
 
 -- lspconfig.clangd.setup({
 --     capabilities = vim.tbl_deep_extend('force', capabilities, {
