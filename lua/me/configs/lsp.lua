@@ -72,28 +72,5 @@ end
 lsp('nix')
 lsp('lua')
 lsp('rust')
-
--- lspconfig.clangd.setup({
---     capabilities = vim.tbl_deep_extend('force', capabilities, {
---         offsetEncoding = { 'utf-16' },
---     }),
---     cmd = {
---         'clangd',
---         '--background-index',
---         '--clang-tidy',
---         '--header-insertion=iwyu',
---         '--completion-style=detailed',
---         '--function-arg-placeholders',
---         '--fallback-style=llvm',
---     },
---     init_options = {
---         usePlaceholders = true,
---         completeUnimported = true,
---         clangdFileStatus = true,
---     },
---     filetypes = { 'cpp' },
--- })
---
--- lspconfig.cmake.setup({ capabilities = capabilities, filetypes = { 'cmake' } })
---
--- lspconfig.bashls.setup({ capabilities = capabilities, filetypes = { 'bash' } })
+lsp('c-cpp')
+lsp('cmake')
