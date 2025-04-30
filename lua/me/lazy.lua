@@ -15,10 +15,21 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     spec = {
         { import = 'me.plugins' },
+        {
+            'L3MON4D3/LuaSnip',
+            build = 'make install_jsregexp',
+            dependencies = { 'rafamadriz/friendly-snippets' },
+        },
+        {
+            'folke/lazydev.nvim',
+            dependencies = 'neovim/nvim-lspconfig',
+            ft = 'lua',
+            opts = { library = { 'folke/snacks.nvim' } },
+        },
     },
     install = {
         missing = true,
-        colorscheme = { 'rose-pine' },
+        colorscheme = { 'catppuccin' },
     },
     checker = {
         enabled = true,

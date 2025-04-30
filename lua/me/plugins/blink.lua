@@ -1,4 +1,10 @@
-require('blink.cmp').setup({
+local M = { 'saghen/blink.cmp' }
+M.build = 'cargo build --release'
+M.dependencies = { 'L3MON4D3/LuaSnip', 'neovim/nvim-lspconfig' }
+
+M.event = { 'InsertEnter', 'CmdlineEnter' }
+
+M.opts = {
     completion = {
         list = { selection = { preselect = false } },
         accept = { create_undo_point = true },
@@ -60,4 +66,6 @@ require('blink.cmp').setup({
     snippets = {
         preset = 'luasnip',
     },
-})
+}
+
+return M
