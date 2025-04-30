@@ -10,12 +10,7 @@
   in {
     devShells.${system}.default = pkgs.mkShell {
       name = "neovim-config";
-      packages = with pkgs; [
-        stylua
-        luajitPackages.luacheck
-        lua-language-server
-        pre-commit
-      ];
+      packages = with pkgs; [stylua lua-language-server];
     };
   };
 }
