@@ -13,6 +13,7 @@ M.config = function()
     mini_setup('move')
     mini_setup('surround')
     mini_setup('cursorword')
+    mini_setup('icons')
 end
 
 return M

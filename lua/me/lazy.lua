@@ -26,6 +26,7 @@ require('lazy').setup({
             ft = 'lua',
             opts = { library = { 'folke/snacks.nvim' } },
         },
+        { 'nvim-tree/nvim-web-devicons', opts = {} },
     },
     install = {
         missing = true,
