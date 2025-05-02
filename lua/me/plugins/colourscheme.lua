@@ -30,6 +30,7 @@ M.opts = {
             indent_scope_color = 'lavender',
         },
         lsp_trouble = true,
+        flash = true,
     },
     custom_highlights = function(colors)
         return {
