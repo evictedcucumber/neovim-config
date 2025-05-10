@@ -1,7 +1,9 @@
 ---A representation of a custom table for LSP server setup.
 ---@class me.LspServerSetup
 ---@field server_name string
+---@field disabled? boolean
 ---@field on_init? fun():nil
+---@field filetypes? table<string>
 ---@field capabilities? table
 ---@field cmd? table
 ---@field init_options? table

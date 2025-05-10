@@ -64,34 +64,40 @@ M.config = function()
         ---@type me.LspServerSetup
         local server = require('me.lsp-servers.' .. file:gsub('%.lua$', ''))
 
-        local settings = {
-            on_attach = on_attach,
-            capabilities = vim.tbl_deep_extend(
-                'force',
-                capabilities,
-                server.capabilities or {}
-            ),
-        }
+        if not server.disabled then
+            local settings = {
+                on_attach = on_attach,
+                capabilities = vim.tbl_deep_extend(
+                    'force',
+                    capabilities,
+                    server.capabilities or {}
+                ),
+            }
 
-        if server.on_init then
-            settings.on_init = server.on_init
-        end
+            if server.on_init then
+                settings.on_init = server.on_init
+            end
 
-        if server.cmd then
-            settings.cmd = server.cmd
-        end
+            if server.filetypes then
+                settings.filetypes = server.filetypes
+            end
 
-        if server.init_options then
-            settings.init_options = server.init_options
-        end
+            if server.cmd then
+                settings.cmd = server.cmd
+            end
 
-        if server.settings then
-            settings.settings = server.settings
-        end
+            if server.init_options then
+                settings.init_options = server.init_options
+            end
 
-        if server.server_name then
-            vim.lsp.config(server.server_name, settings)
-            vim.lsp.enable(server.server_name)
+            if server.settings then
+                settings.settings = server.settings
+            end
+
+            if server.server_name then
+                vim.lsp.config(server.server_name, settings)
+                vim.lsp.enable(server.server_name)
+            end
         end
     end
 end
