@@ -26,6 +26,12 @@ require('lazy').setup({
             ft = 'lua',
             opts = { library = { 'folke/snacks.nvim' } },
         },
+        {
+            'm4xshen/hardtime.nvim',
+            lazy = false,
+            dependencies = { 'MunifTanjim/nui.nvim' },
+            opts = {},
+        },
         { 'nvim-tree/nvim-web-devicons', opts = {} },
     },
     install = {
