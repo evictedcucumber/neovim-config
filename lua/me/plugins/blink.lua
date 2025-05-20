@@ -1,5 +1,5 @@
 local M = { 'saghen/blink.cmp' }
-M.build = 'cargo build --release'
+M.build = 'nix run .#build-plugin'
 M.dependencies = { 'L3MON4D3/LuaSnip', 'neovim/nvim-lspconfig' }
 
 M.event = { 'InsertEnter', 'CmdlineEnter' }
