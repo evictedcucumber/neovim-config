@@ -21,14 +21,14 @@ M.keys = {
     {
         '<C-p>',
         function()
-            require('harpoon'):list():prev()
+            require('harpoon'):list():prev({ ui_nav_wrap = true })
         end,
         desc = 'Harpoon Previous',
     },
     {
         '<C-n>',
         function()
-            require('harpoon'):list():next()
+            require('harpoon'):list():next({ ui_nav_wrap = true })
         end,
         desc = 'Harpoon Next',
     },
