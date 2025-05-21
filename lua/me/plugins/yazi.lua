@@ -1,16 +1,13 @@
-local M = { 'mikavilpas/yazi.nvim' }
-M.dependencies = 'folke/snacks.nvim'
-
-M.event = 'VeryLazy'
-M.keys = {
-    { '_', '<CMD>Yazi cwd<CR>', desc = 'Open Yazi in CWD' },
-    { '-', '<CMD>Yazi<CR>', desc = 'Open Yazi at current file' },
+return {
+    'mikavilpas/yazi.nvim',
+    dependencies = 'folke/snacks.nvim',
+    event = 'VeryLazy',
+    keys = {
+        { '_', '<C>Yazi cwd<CR>', desc = 'Open Yazi in CWD' },
+        { '-', '<C>Yazi<CR>', desc = 'Open Yazi at current file' },
+    },
+    init = function()
+        vim.g.loaded_netrwPlugin = 1
+    end,
+    opts = { open_for_directories = true },
 }
-
-M.init = function()
-    vim.g.loaded_netrwPlugin = 1
-end
-
-M.opts = { open_for_directories = true }
-
-return M

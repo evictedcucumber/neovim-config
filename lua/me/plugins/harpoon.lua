@@ -1,41 +1,38 @@
-local M = { 'ThePrimeagen/harpoon' }
-M.branch = 'harpoon2'
-M.dependencies = 'nvim-lua/plenary.nvim'
-
-M.keys = {
-    {
-        '<leader>a',
-        function()
-            require('harpoon'):list():add()
-        end,
-        desc = 'Harpoon Add',
+return {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    keys = {
+        {
+            '<leader>a',
+            function()
+                require('harpoon'):list():add()
+            end,
+            desc = 'Harpoon [A]dd',
+        },
+        {
+            '<leader>e',
+            function()
+                local harpoon = require('harpoon')
+                harpoon.ui:toggle_quick_menu(harpoon:list())
+            end,
+            desc = 'Harpoon [E]xplorer',
+        },
+        {
+            '<C-p>',
+            function()
+                require('harpoon'):list():prev({ ui_nav_wrap = true })
+            end,
+            desc = 'Harpoon [P]revious',
+        },
+        {
+            '<C-n>',
+            function()
+                require('harpoon'):list():next({ ui_nav_wrap = true })
+            end,
+            desc = 'Harpoon [N]ext',
+        },
     },
-    {
-        '<leader>e',
-        function()
-            local harpoon = require('harpoon')
-            harpoon.ui:toggle_quick_menu(harpoon:list())
-        end,
-        desc = 'Harpoon Explorer',
-    },
-    {
-        '<C-p>',
-        function()
-            require('harpoon'):list():prev({ ui_nav_wrap = true })
-        end,
-        desc = 'Harpoon Previous',
-    },
-    {
-        '<C-n>',
-        function()
-            require('harpoon'):list():next({ ui_nav_wrap = true })
-        end,
-        desc = 'Harpoon Next',
-    },
+    config = function()
+        require('harpoon'):setup()
+    end,
 }
-
-M.config = function()
-    require('harpoon'):setup()
-end
-
-return M

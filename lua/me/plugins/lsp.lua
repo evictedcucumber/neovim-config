@@ -1,105 +1,170 @@
-local M = { 'neovim/nvim-lspconfig' }
-M.dependencies = 'folke/snacks.nvim'
+return {
+    'neovim/nvim-lspconfig',
+    lazy = false,
+    dependencies = { 'folke/snacks.nvim', 'saghen/blink.cmp', { 'j-hui/fidget.nvim', opts = {} } },
+    init = function()
+        vim.keymap.del('n', 'gra')
+        vim.keymap.del('n', 'grr')
+        vim.keymap.del('n', 'gri')
+        vim.keymap.del('n', 'grn')
 
-M.event = { 'BufNewFile', 'BufReadPost' }
-
-M.init = function()
-    vim.diagnostic.config({
-        severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = {
-            text = {
-                [vim.diagnostic.severity.ERROR] = '󰅚 ',
-                [vim.diagnostic.severity.WARN] = '󰀪 ',
-                [vim.diagnostic.severity.INFO] = '󰋽 ',
-                [vim.diagnostic.severity.HINT] = '󰌶 ',
+        vim.diagnostic.config({
+            severity_sort = true,
+            float = { border = 'rounded', source = 'if_many' },
+            underline = { severity = vim.diagnostic.severity.ERROR },
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = '󰅚 ',
+                    [vim.diagnostic.severity.WARN] = '󰀪 ',
+                    [vim.diagnostic.severity.INFO] = '󰋽 ',
+                    [vim.diagnostic.severity.HINT] = '󰌶 ',
+                },
             },
-        },
-        virtual_text = true,
-    })
-end
+            virtual_text = true,
+        })
+    end,
+    config = function()
+        local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
-M.config = function()
-    local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
-    local on_attach = function(_, bufnr)
-        local function opts(desc)
-            return { buffer = bufnr, desc = desc }
+        local on_attach = function(_, bufnr)
+            local function opts(desc)
+                return { noremap = true, buffer = bufnr, desc = desc }
+            end
+
+            vim.keymap.set('n', 'gd', function()
+                require('snacks').picker.lsp_definitions()
+            end, opts('[G]o to LSP [D]efinition'))
+            vim.keymap.set('n', 'gt', function()
+                require('snacks').picker.lsp_type_definitions()
+            end, opts('[G]o to LSP [T]ype Definition'))
+            vim.keymap.set('n', 'gD', function()
+                require('snacks').picker.lsp_declarations()
+            end, opts('[G]o to LSP [D]eclaration'))
+            vim.keymap.set('n', 'gi', function()
+                require('snacks').picker.lsp_implementations()
+            end, opts('[G]o to [I]mplementation'))
+            vim.keymap.set('n', 'gr', function()
+                require('snacks').picker.lsp_references()
+            end, opts('[G]o to [R]eferences'))
+            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts('LSP [R]e[n]ame'))
+            vim.keymap.set(
+                { 'n', 'v' },
+                '<leader>ca',
+                vim.lsp.buf.code_action,
+                opts('Show LSP [C]ode [A]ctions')
+            )
+            vim.keymap.set('n', 'K', function()
+                vim.lsp.buf.hover({
+                    border = 'rounded',
+                })
+            end, opts('Show LSP Hover Documentation'))
         end
 
-        local map = vim.keymap.set
-        map('n', 'gd', function()
-            Snacks.picker.lsp_definitions()
-        end, opts('Go to definition'))
-        map('n', 'gD', function()
-            Snacks.picker.lsp_declarations()
-        end, opts('Go to declaration'))
-        map('n', 'gi', function()
-            Snacks.picker.lsp_implementations()
-        end, opts('Go to implementation'))
-        map('n', 'gr', function()
-            Snacks.picker.lsp_references()
-        end, opts('Go to references'))
-        map('n', '<leader>rn', vim.lsp.buf.rename, opts('Rename'))
-        map(
-            { 'n', 'v' },
-            '<leader>ca',
-            vim.lsp.buf.code_action,
-            opts('Code Actions')
-        )
-        map('n', 'K', vim.lsp.buf.hover, opts('Show Hover Documentation'))
-        map('n', '<C-f>', function()
-            require('noice.lsp').scroll(4)
-        end, opts('Scroll Down Hover Documentation'))
-        map('n', '<C-b>', function()
-            require('noice.lsp').scroll(-4)
-        end, opts('Scroll Up Hover Documentation'))
-    end
-
-    for _, file in
-        ipairs(
-            vim.fn.readdir(vim.fn.stdpath('config') .. '/lua/me/lsp-servers')
-        )
-    do
-        ---@type me.LspServerSetup
-        local server = require('me.lsp-servers.' .. file:gsub('%.lua$', ''))
-
-        if not server.disabled then
-            local settings = {
-                on_attach = on_attach,
-                capabilities = vim.tbl_deep_extend(
-                    'force',
-                    capabilities,
-                    server.capabilities or {}
-                ),
-            }
-
-            if server.on_init then
-                settings.on_init = server.on_init
-            end
-
-            if server.filetypes then
-                settings.filetypes = server.filetypes
-            end
-
-            if server.cmd then
-                settings.cmd = server.cmd
-            end
-
-            if server.init_options then
-                settings.init_options = server.init_options
-            end
-
-            if server.settings then
-                settings.settings = server.settings
-            end
-
-            if server.server_name then
-                vim.lsp.config(server.server_name, settings)
-                vim.lsp.enable(server.server_name)
-            end
+        local lsp_setup = function(server, settings)
+            vim.lsp.config(server, settings)
+            vim.lsp.enable(server)
         end
-    end
-end
 
-return M
+        -- lua-language-server
+        lsp_setup('lua_ls', {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            on_init = function()
+                vim.opt.colorcolumn = '99'
+            end,
+            settings = {
+                Lua = {
+                    runtime = { version = 'LuaJIT' },
+                    workspace = { checkThirdParty = false },
+                    codeLens = { enable = true },
+                    completion = { callSnippet = 'Replace' },
+                    doc = { privateName = { '^_' } },
+                    hint = {
+                        enable = true,
+                        setType = false,
+                        paramType = true,
+                        paramName = 'Disable',
+                        semicolon = 'Disable',
+                        arrayIndex = 'Disable',
+                    },
+                    telemetry = { enable = false },
+                },
+            },
+        })
+        -- /lua-language-server
+        -- clangd
+        lsp_setup('clangd', {
+            capabilities = vim.tbl_deep_extend(
+                'force',
+                capabilities,
+                { offsetEncoding = { 'utf-16' } }
+            ),
+            on_attach = on_attach,
+            cmd = {
+                'clangd',
+                '--background-index',
+                '--clang-tidy',
+                '--header-insertion=iwyu',
+                '--completion-style=detailed',
+                '--function-arg-placeholders',
+                '--fallback-style=llvm',
+            },
+            init_options = {
+                usePlaceholders = true,
+                completeUnimported = true,
+                clangdFileStatus = true,
+            },
+        })
+        -- /clangd
+
+        -- cmake-language-server
+        lsp_setup('cmake', {})
+        -- /cmake-language-server
+        -- harper-ls
+        lsp_setup('harper_ls', {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+                ['harper-ls'] = {
+                    userDictPath = vim.fn.stdpath('cache') .. '/harper-ls/dictionary.txt',
+                    dialetc = 'British',
+                    codeActions = { ForceStable = true },
+                    linters = {
+                        LinkingVerbs = true,
+                        BoringWords = true,
+                        UseGenitive = true,
+                        SpelledNumbers = true,
+                    },
+                    markdown = { IgnoreLinkTitle = true },
+                },
+            },
+        })
+        -- /harper-ls
+        -- nixd
+        lsp_setup('nixd', {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+                nixd = { formatting = { command = { 'alejandra' } } },
+            },
+        })
+        -- /nixd
+        -- rust-analyzer
+        lsp_setup('rust-analyzer', {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            on_init = function()
+                vim.opt.colorcolumn = '99'
+                vim.opt.tabstop = 4
+                vim.opt.softtabstop = 4
+                vim.opt.shiftwidth = 4
+            end,
+            settings = {
+                ['rust-analyzer'] = {
+                    cargo = { allFeatures = true },
+                },
+            },
+        })
+        -- /rust-analyzer
+    end,
+}
