@@ -15,24 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     spec = {
         { import = 'me.plugins' },
-        {
-            'L3MON4D3/LuaSnip',
-            build = 'make install_jsregexp',
-            dependencies = { 'rafamadriz/friendly-snippets' },
-        },
-        {
-            'folke/lazydev.nvim',
-            dependencies = 'neovim/nvim-lspconfig',
-            ft = 'lua',
-            opts = { library = { 'folke/snacks.nvim' } },
-        },
-        {
-            'm4xshen/hardtime.nvim',
-            lazy = false,
-            dependencies = { 'MunifTanjim/nui.nvim' },
-            opts = {},
-        },
-        { 'nvim-tree/nvim-web-devicons', opts = {} },
     },
     install = {
         missing = true,
@@ -43,7 +25,7 @@ require('lazy').setup({
         notify = false,
     },
     change_detection = {
-        enabled = true,
+        enabled = false,
         notify = false,
     },
 })
