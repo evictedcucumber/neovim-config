@@ -78,7 +78,8 @@ vim.opt.splitbelow = true
 
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
-    group = Me.custom_augroup('HighlightYank'),
+    group = vim.api.nvim_create_augroup('me_highlight_yank', { clear = true }),
+    desc = 'Highlight area being yanked',
     callback = function()
         vim.highlight.on_yank()
     end,
