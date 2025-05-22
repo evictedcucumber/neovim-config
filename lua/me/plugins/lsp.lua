@@ -69,9 +69,6 @@ return {
         lsp_setup('lua_ls', {
             capabilities = capabilities,
             on_attach = on_attach,
-            on_init = function()
-                vim.opt.colorcolumn = '99'
-            end,
             settings = {
                 Lua = {
                     runtime = { version = 'LuaJIT' },
@@ -153,12 +150,6 @@ return {
         lsp_setup('rust-analyzer', {
             capabilities = capabilities,
             on_attach = on_attach,
-            on_init = function()
-                vim.opt.colorcolumn = '99'
-                vim.opt.tabstop = 4
-                vim.opt.softtabstop = 4
-                vim.opt.shiftwidth = 4
-            end,
             settings = {
                 ['rust-analyzer'] = {
                     cargo = { allFeatures = true },
