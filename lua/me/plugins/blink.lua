@@ -73,6 +73,11 @@ return {
                     module = 'lazydev.integrations.blink',
                     score_offset = 100,
                 },
+                cmdline = {
+                    enabled = function()
+                        return vim.fn.getcmdline():sub(1, 1) ~= '!'
+                    end,
+                },
             },
         },
     },
