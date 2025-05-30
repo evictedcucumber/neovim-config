@@ -117,26 +117,6 @@ return {
         -- cmake-language-server
         lsp_setup('cmake', {})
         -- /cmake-language-server
-        -- harper-ls
-        lsp_setup('harper_ls', {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                ['harper-ls'] = {
-                    userDictPath = vim.fn.stdpath('cache') .. '/harper-ls/dictionary.txt',
-                    dialetc = 'British',
-                    codeActions = { ForceStable = true },
-                    linters = {
-                        LinkingVerbs = true,
-                        BoringWords = true,
-                        UseGenitive = true,
-                        SpelledNumbers = true,
-                    },
-                    markdown = { IgnoreLinkTitle = true },
-                },
-            },
-        })
-        -- /harper-ls
         -- nixd
         lsp_setup('nixd', {
             capabilities = capabilities,
