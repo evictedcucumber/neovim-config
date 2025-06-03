@@ -1,8 +1,8 @@
 return {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
-    main = 'nvim-treesitter.configs',
     opts = {
         auto_install = true,
         sync_install = true,
