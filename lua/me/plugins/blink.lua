@@ -64,6 +64,7 @@ return {
             ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
         },
         sources = {
+            default = { 'lsp', 'buffer', 'snippets', 'path' },
             per_filetype = {
                 lua = { inherit_defaults = true, 'lazydev' },
             },
