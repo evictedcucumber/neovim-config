@@ -24,6 +24,7 @@ return {
         })
     end,
     config = function()
+        local lsp_augroup = vim.api.nvim_create_augroup('lsp_augroup', { clear = true })
         local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
         local on_attach = function(_, bufnr)
@@ -55,9 +56,37 @@ return {
             )
             vim.keymap.set('n', 'K', function()
                 vim.lsp.buf.hover({
+                    focusable = true,
+                    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
                     border = 'rounded',
                 })
             end, opts('Show LSP Hover Documentation'))
+            vim.keymap.set('n', '<leader>d', function()
+                vim.diagnostic.open_float(nil, {
+                    focusable = false,
+                    scope = 'cursor',
+                    border = 'rounded',
+                    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
+                })
+            end, opts('Show [D]iagnostic in Float'))
+            vim.keymap.set('n', '<leader>D', function()
+                vim.diagnostic.setloclist()
+            end, opts('Show all [D]iagnostics'))
+
+            vim.api.nvim_create_autocmd('InsertEnter', {
+                buffer = bufnr,
+                group = lsp_augroup,
+                callback = function()
+                    vim.diagnostic.enable(false, { bufnr = bufnr })
+                end,
+            })
+            vim.api.nvim_create_autocmd('InsertLeave', {
+                buffer = bufnr,
+                group = lsp_augroup,
+                callback = function()
+                    vim.diagnostic.enable(true, { bufnr = bufnr })
+                end,
+            })
         end
 
         local lsp_setup = function(server, settings)
