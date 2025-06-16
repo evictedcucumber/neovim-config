@@ -52,6 +52,7 @@ return {
             '**/build/',
             '**/.cache/',
             '**/target/',
+            '**/docs/',
         }
 
         require('snacks').setup({

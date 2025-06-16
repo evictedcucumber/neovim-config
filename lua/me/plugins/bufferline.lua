@@ -3,7 +3,8 @@ return {
     version = '*',
     event = 'VeryLazy',
     config = function()
-        local highlights = require('catppuccin.groups.integrations.bufferline').get()
+        local highlights = require('catppuccin.groups.integrations.bufferline')
+            .get()
 
         require('bufferline').setup({
             options = {

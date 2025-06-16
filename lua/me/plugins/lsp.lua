@@ -24,10 +24,13 @@ return {
         })
     end,
     config = function()
-        local lsp_augroup = vim.api.nvim_create_augroup('lsp_augroup', { clear = true })
+        local lsp_augroup = vim.api.nvim_create_augroup('lsp_augroup',
+            { clear = true })
         local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 
-        local on_attach = function(_, bufnr)
+        ---@param client vim.lsp.Client
+        ---@param bufnr integer
+        local on_attach = function(client, bufnr)
             local function opts(desc)
                 return { noremap = true, buffer = bufnr, desc = desc }
             end
@@ -47,7 +50,8 @@ return {
             vim.keymap.set('n', 'gr', function()
                 require('snacks').picker.lsp_references()
             end, opts('[G]o to [R]eferences'))
-            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts('LSP [R]e[n]ame'))
+            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,
+                opts('LSP [R]e[n]ame'))
             vim.keymap.set(
                 { 'n', 'v' },
                 '<leader>ca',
@@ -87,6 +91,7 @@ return {
                     vim.diagnostic.enable(true, { bufnr = bufnr })
                 end,
             })
+
             if client:supports_method('textDocument/formatting', bufnr) then
                 vim.api.nvim_create_autocmd('BufWritePre', {
                     group = vim.api.nvim_create_augroup('LSP_FORMAT',
