@@ -87,6 +87,16 @@ return {
                     vim.diagnostic.enable(true, { bufnr = bufnr })
                 end,
             })
+            if client:supports_method('textDocument/formatting', bufnr) then
+                vim.api.nvim_create_autocmd('BufWritePre', {
+                    group = vim.api.nvim_create_augroup('LSP_FORMAT',
+                        { clear = true }),
+                    buffer = bufnr,
+                    callback = function()
+                        vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
+                    end,
+                })
+            end
         end
 
         local lsp_setup = function(server, settings)
