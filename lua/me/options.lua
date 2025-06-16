@@ -14,13 +14,7 @@ vim.g.loaded_python_provider = 0
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- enable colour column
-vim.opt.colorcolumn = '80'
-
 -- configure tabbing
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -78,9 +72,23 @@ vim.opt.splitbelow = true
 
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
-    group = vim.api.nvim_create_augroup('me_highlight_yank', { clear = true }),
+    group = vim.api.nvim_create_augroup('HIGHLIGHT_YANK', { clear = true }),
     desc = 'Highlight area being yanked',
     callback = function()
         vim.highlight.on_yank()
     end,
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = vim.api.nvim_create_augroup('AUTO_COLOR_COLUMN', { clear = true }),
+    ---@param ev vim.api.keyset.create_autocmd.callback_args
+    callback = function(ev)
+        if vim.bo[ev.buf].buflisted then
+            if vim.wo.colorcolumn == '' then
+                ---@type integer
+                local tw = vim.bo[ev.buf].textwidth
+                vim.wo.colorcolumn = tw > 0 and tostring(tw) or ''
+            end
+        end
+    end
 })
