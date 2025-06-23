@@ -101,85 +101,13 @@ return {
                         vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
                     end,
                 })
+
+                vim.keymap.set('n', '<leader>fm', function()
+                    vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
+                end, opts('[F]or[m]at Buffer'))
             end
         end
 
-        local lsp_setup = function(server, settings)
-            vim.lsp.config(server, settings)
-            vim.lsp.enable(server)
-        end
-
-        -- lua-language-server
-        lsp_setup('lua_ls', {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                Lua = {
-                    runtime = { version = 'LuaJIT' },
-                    workspace = { checkThirdParty = false },
-                    codeLens = { enable = true },
-                    completion = { callSnippet = 'Replace' },
-                    doc = { privateName = { '^_' } },
-                    hint = {
-                        enable = true,
-                        setType = false,
-                        paramType = true,
-                        paramName = 'Disable',
-                        semicolon = 'Disable',
-                        arrayIndex = 'Disable',
-                    },
-                    telemetry = { enable = false },
-                },
-            },
-        })
-        -- /lua-language-server
-        -- clangd
-        lsp_setup('clangd', {
-            capabilities = vim.tbl_deep_extend(
-                'force',
-                capabilities,
-                { offsetEncoding = { 'utf-16' } }
-            ),
-            on_attach = on_attach,
-            cmd = {
-                'clangd',
-                '--background-index',
-                '--clang-tidy',
-                '--header-insertion=iwyu',
-                '--completion-style=detailed',
-                '--function-arg-placeholders',
-                '--fallback-style=llvm',
-            },
-            init_options = {
-                usePlaceholders = true,
-                completeUnimported = true,
-                clangdFileStatus = true,
-            },
-        })
-        -- /clangd
-
-        -- cmake-language-server
-        lsp_setup('cmake', {})
-        -- /cmake-language-server
-        -- nixd
-        lsp_setup('nixd', {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                nixd = { formatting = { command = { 'alejandra' } } },
-            },
-        })
-        -- /nixd
-        -- rust-analyzer
-        lsp_setup('rust-analyzer', {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                ['rust-analyzer'] = {
-                    cargo = { allFeatures = true },
-                },
-            },
-        })
-        -- /rust-analyzer
+        require('me.lsp-servers').setup(capabilities, on_attach)
     end,
 }
