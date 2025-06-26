@@ -71,13 +71,7 @@ M.setup = function(capabilities, on_attach)
     })
     -- /nixd
     -- rust-analyzer
-    lsp_setup('rust-analyzer', {
-        settings = {
-            ['rust-analyzer'] = {
-                cargo = { allFeatures = true },
-            },
-        },
-    })
+    lsp_setup('rust_analyzer')
     -- /rust-analyzer
     -- pyright
     lsp_setup('pyright')
