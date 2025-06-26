@@ -79,6 +79,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+-- auto colour column
 vim.api.nvim_create_autocmd('BufEnter', {
     group = vim.api.nvim_create_augroup('AUTO_COLOR_COLUMN', { clear = true }),
     ---@param ev vim.api.keyset.create_autocmd.callback_args
