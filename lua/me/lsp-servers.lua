@@ -80,7 +80,9 @@ M.setup = function(capabilities, on_attach)
     lsp_setup('autotools_ls')
     -- /autotools_ls
     -- typescript-language-server
-    lsp_setup('ts_lsp')
+    lsp_setup('ts_lsp', {
+        filetypes = { 'javascript' },
+    })
     -- /typescript-lanuage-server
 end
 
