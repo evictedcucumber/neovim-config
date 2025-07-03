@@ -17,6 +17,10 @@ return {
             'cmake',
             'doxygen',
             'editorconfig',
+            'rust',
+            'toml',
+            'yaml',
+            'make',
         })
         vim.api.nvim_create_autocmd('FileType', {
             pattern = { '<filetype>' },
