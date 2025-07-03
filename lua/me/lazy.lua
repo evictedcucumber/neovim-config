@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     spec = {
         { import = 'me.plugins' },
+        { import = 'me.plugins.language-specific' },
         {
             dir = '~/repos/easycmd.nvim',
             cmd = { 'EasyCmdRun', 'EasyCmdEdit' },
