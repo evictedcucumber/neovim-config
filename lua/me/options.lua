@@ -91,5 +91,5 @@ vim.api.nvim_create_autocmd('BufEnter', {
                 vim.wo.colorcolumn = tw > 0 and tostring(tw) or ''
             end
         end
-    end
+    end,
 })

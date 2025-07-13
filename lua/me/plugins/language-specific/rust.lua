@@ -8,7 +8,7 @@ return {
             tools = {
                 ---@type vim.lsp.util.open_floating_preview.Opts
                 float_win_config = { border = 'rounded' },
-                code_actions = { ui_select_fallback = true }
+                code_actions = { ui_select_fallback = true },
             },
             server = {
                 ---@param client vim.lsp.Client
@@ -28,25 +28,72 @@ return {
                         }
                     end
 
-                    vim.keymap.set('n', '<leader>d',
+                    vim.keymap.set(
+                        'n',
+                        '<leader>d',
                         '<cmd>RustLsp renderDiagnostic<CR>',
                         opts('Show Rust [D]iagnostic in Float')
                     )
 
-                    vim.keymap.set('n', 'K',
+                    vim.keymap.set(
+                        'n',
+                        'K',
                         '<cmd>RustLsp hover actions<CR>',
                         opts('Show Rust Hover Documentation')
                     )
 
-                    vim.keymap.set('n', '<leader>ca',
+                    vim.keymap.set(
+                        'n',
+                        '<leader>ca',
                         '<cmd>RustLsp codeAction<CR>',
                         opts('Show Rust [C]ode [A]ctions')
                     )
+
+                    vim.keymap.set(
+                        'n',
+                        '<leader>cr',
+                        '<cmd>RustLsp! runnables<CR>',
+                        opts('Run Rust [R]unnables')
+                    )
+                    vim.keymap.set(
+                        'n',
+                        '<leader>cR',
+                        '<cmd>RustLsp runnables<CR>',
+                        opts('Select and Run Rust [R]unnables')
+                    )
+
+                    vim.keymap.set(
+                        'n',
+                        '<leader>ct',
+                        '<cmd>RustLsp! testables<CR>',
+                        opts('Run Rust [T]estables')
+                    )
+                    vim.keymap.set(
+                        'n',
+                        '<leader>cT',
+                        '<cmd>RustLsp testables<CR>',
+                        opts('Select and Run Rust [T]estables')
+                    )
+
+                    vim.keymap.set(
+                        'n',
+                        '<leader>cd',
+                        '<cmd>RustLsp! debuggables<CR>',
+                        opts('Run Rust [D]ebuggables')
+                    )
+                    vim.keymap.set(
+                        'n',
+                        '<leader>cD',
+                        '<cmd>RustLsp debuggables<CR>',
+                        opts('Select and Run Rust [D]ebuggables')
+                    )
                 end,
-                capabilities = require('blink.cmp').get_lsp_capabilities(nil,
-                    true),
+                capabilities = require('blink.cmp').get_lsp_capabilities(
+                    nil,
+                    true
+                ),
                 standalone = false,
-            }
+            },
         }
-    end
+    end,
 }
