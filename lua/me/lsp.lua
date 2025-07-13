@@ -3,8 +3,8 @@ local M = {}
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 M.on_attach = function(client, bufnr)
-    local lsp_augroup = vim.api.nvim_create_augroup('lsp_augroup',
-        { clear = true })
+    local lsp_augroup =
+        vim.api.nvim_create_augroup('lsp_augroup', { clear = true })
 
     local function opts(desc)
         ---@type vim.keymap.set.Opts
@@ -13,7 +13,7 @@ M.on_attach = function(client, bufnr)
             desc = desc,
             nowait = true,
             silent = true,
-            noremap = true
+            noremap = true,
         }
     end
 
@@ -32,8 +32,12 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', function()
         require('snacks').picker.lsp_references()
     end, opts('[G]o to [R]eferences'))
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,
-        opts('LSP [R]e[n]ame'))
+    vim.keymap.set(
+        'n',
+        '<leader>rn',
+        vim.lsp.buf.rename,
+        opts('LSP [R]e[n]ame')
+    )
     vim.keymap.set(
         { 'n', 'v' },
         '<leader>ca',
@@ -73,11 +77,9 @@ M.on_attach = function(client, bufnr)
             vim.diagnostic.enable(true, { bufnr = bufnr })
         end,
     })
-
     if client:supports_method('textDocument/formatting', bufnr) then
         vim.api.nvim_create_autocmd('BufWritePre', {
-            group = vim.api.nvim_create_augroup('LSP_FORMAT',
-                { clear = true }),
+            group = vim.api.nvim_create_augroup('LSP_FORMAT', { clear = true }),
             buffer = bufnr,
             callback = function()
                 vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
@@ -86,7 +88,31 @@ M.on_attach = function(client, bufnr)
 
         vim.keymap.set('n', '<leader>fm', function()
             vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
-        end, opts('[F]or[m]at Buffer'))
+        end, opts('LSP [F]or[m]at Buffer'))
+    else
+        local formatter_info, _ =
+            require('conform').list_formatters_to_run(bufnr)
+        if #formatter_info ~= 0 then
+            local conform_opts = {
+                bufnr = bufnr,
+                lsp_format = 'never',
+                timeout_ms = 500,
+            }
+            vim.api.nvim_create_autocmd('BufWritePre', {
+                group = vim.api.nvim_create_augroup(
+                    'CONFORM_FORMAT',
+                    { clear = true }
+                ),
+                buffer = bufnr,
+                callback = function()
+                    require('conform').format(conform_opts)
+                end,
+            })
+
+            vim.keymap.set('n', '<leader>fm', function()
+                require('conform').format(conform_opts)
+            end, opts('Conform [F]or[m]at Buffer'))
+        end
     end
 end
 
@@ -125,33 +151,6 @@ M.setup = function()
         },
     })
     -- /lua-language-server
-    -- clangd
-    lsp_setup('clangd', {
-        capabilities = vim.tbl_deep_extend(
-            'force',
-            capabilities,
-            { offsetEncoding = { 'utf-16' } }
-        ),
-        cmd = {
-            'clangd',
-            '--background-index',
-            '--clang-tidy',
-            '--header-insertion=iwyu',
-            '--completion-style=detailed',
-            '--function-arg-placeholders',
-            '--fallback-style=llvm',
-        },
-        init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-        },
-    })
-    -- /clangd
-
-    -- cmake-language-server
-    lsp_setup('cmake')
-    -- /cmake-language-server
     -- nixd
     lsp_setup('nixd', {
         settings = {
@@ -159,15 +158,15 @@ M.setup = function()
         },
     })
     -- /nixd
-    -- pyright
-    lsp_setup('pyright')
-    -- /pyright
     -- autotools_ls
     lsp_setup('autotools_ls')
     -- /autotools_ls
-    -- typescript-language-server
-    lsp_setup('ts_ls')
-    -- /typescript-lanuage-server
+    -- marksman
+    lsp_setup('marksman')
+    -- /marksman
+    -- taplo
+    lsp_setup('taplo')
+    -- /taplo
 end
 
 return M
