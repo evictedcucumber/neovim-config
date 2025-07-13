@@ -1,7 +1,14 @@
 return {
     'neovim/nvim-lspconfig',
     lazy = false,
-    dependencies = { 'folke/snacks.nvim', 'saghen/blink.cmp', { 'j-hui/fidget.nvim', opts = {} } },
+    dependencies = {
+        'folke/snacks.nvim',
+        'saghen/blink.cmp',
+        {
+            'j-hui/fidget.nvim',
+            opts = { notification = { window = { winblend = 0 } } },
+        },
+    },
     init = function()
         vim.keymap.del('n', 'gra')
         vim.keymap.del('n', 'grr')

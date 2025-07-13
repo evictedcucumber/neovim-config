@@ -29,6 +29,11 @@ return {
             },
             lsp_trouble = true,
             flash = true,
+            fidget = false,
+            markdown = true,
+            neotest = true,
+            dap = true,
+            dap_ui = true,
         },
         custom_highlights = function(colors)
             return {
