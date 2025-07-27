@@ -34,6 +34,7 @@ return {
             neotest = true,
             dap = true,
             dap_ui = true,
+            render_markdown = true,
         },
         custom_highlights = function(colors)
             return {

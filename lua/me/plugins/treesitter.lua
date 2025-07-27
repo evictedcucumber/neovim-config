@@ -21,6 +21,8 @@ return {
             'toml',
             'yaml',
             'make',
+            'html',
+            'latex',
         })
         vim.api.nvim_create_autocmd('FileType', {
             pattern = { '<filetype>' },
