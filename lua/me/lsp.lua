@@ -77,41 +77,48 @@ M.on_attach = function(client, bufnr)
             vim.diagnostic.enable(true, { bufnr = bufnr })
         end,
     })
-    if client:supports_method('textDocument/formatting', bufnr) then
+
+    local formatter_info, _ = require('conform').list_formatters_to_run(bufnr)
+    if #formatter_info ~= 0 then
+        local conform_opts = {
+            bufnr = bufnr,
+            lsp_format = 'never',
+            timeout_ms = 500,
+        }
         vim.api.nvim_create_autocmd('BufWritePre', {
-            group = vim.api.nvim_create_augroup('LSP_FORMAT', { clear = true }),
+            group = vim.api.nvim_create_augroup(
+                'CONFORM_FORMAT',
+                { clear = true }
+            ),
             buffer = bufnr,
             callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
+                require('conform').format(conform_opts)
             end,
         })
 
         vim.keymap.set('n', '<leader>fm', function()
-            vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
-        end, opts('LSP [F]or[m]at Buffer'))
-    else
-        local formatter_info, _ =
-            require('conform').list_formatters_to_run(bufnr)
-        if #formatter_info ~= 0 then
-            local conform_opts = {
-                bufnr = bufnr,
-                lsp_format = 'never',
-                timeout_ms = 500,
-            }
+            require('conform').format(conform_opts)
+        end, opts('Conform [F]or[m]at Buffer'))
+    end
+
+    if client:supports_method('textDocument/formatting', bufnr) then
+        local conform, _ =
+            pcall(vim.api.nvim_get_autocmds, { group = 'CONFORM_FORMAT' })
+        if not conform then
             vim.api.nvim_create_autocmd('BufWritePre', {
                 group = vim.api.nvim_create_augroup(
-                    'CONFORM_FORMAT',
+                    'LSP_FORMAT',
                     { clear = true }
                 ),
                 buffer = bufnr,
                 callback = function()
-                    require('conform').format(conform_opts)
+                    vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
                 end,
             })
 
             vim.keymap.set('n', '<leader>fm', function()
-                require('conform').format(conform_opts)
-            end, opts('Conform [F]or[m]at Buffer'))
+                vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
+            end, opts('LSP [F]or[m]at Buffer'))
         end
     end
 end
