@@ -35,20 +35,22 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
         lazy = true,
         event = {
-            'BufReadPre /mnt/mydrive/\\[97\\]\\ Obsidian\\ Vault/**/*.md',
-            'BufNewFile /mnt/mydrive/\\[97\\]\\ Obsidian\\ Vault/**/*.md',
+            'BufReadPre ' .. vim.fn.expand('~') .. '/myvault/**/*.md',
+            'BufNewFile ' .. vim.fn.expand('~') .. '/myvault/**/*.md',
         },
         opts = {
             -- TODO: Remove when plugin goes to 4.0
             legacy_commands = false,
             workspaces = {
                 {
-                    name = 'my-vault',
-                    path = '/mnt/mydrive/[97] Obsidian Vault',
+                    name = 'myvault',
+                    path = '~/myvault',
                 },
             },
             completion = { nvim_cmp = false, blink = true },
             new_notes_dir = 'current_dir',
+            picker = { name = 'snacks.pick' },
+            ui = { enable = false },
         },
     },
 }
