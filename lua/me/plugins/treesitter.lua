@@ -23,6 +23,7 @@ return {
             'make',
             'html',
             'latex',
+            'comment',
         })
         vim.api.nvim_create_autocmd('FileType', {
             pattern = { '<filetype>' },
