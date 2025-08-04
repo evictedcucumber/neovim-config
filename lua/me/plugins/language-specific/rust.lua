@@ -31,8 +31,20 @@ return {
                     vim.keymap.set(
                         'n',
                         '<leader>d',
-                        '<cmd>RustLsp renderDiagnostic<CR>',
+                        '<cmd>RustLsp renderDiagnostic current<CR>',
                         opts('Show Rust [D]iagnostic in Float')
+                    )
+                    vim.keymap.set(
+                        'n',
+                        '[d',
+                        '<cmd>RustLsp renderDiagnostic cycle_prev<CR>',
+                        opts('Goto Previous [D]iagnostic')
+                    )
+                    vim.keymap.set(
+                        'n',
+                        ']d',
+                        '<cmd>RustLsp renderDiagnostic cycle<CR>',
+                        opts('Goto Next [D]iagnostic')
                     )
 
                     vim.keymap.set(
