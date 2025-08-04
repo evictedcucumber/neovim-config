@@ -35,6 +35,7 @@ return {
             dap = true,
             dap_ui = true,
             render_markdown = true,
+            ufo = true,
         },
         custom_highlights = function(colors)
             return {
