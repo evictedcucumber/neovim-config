@@ -3,6 +3,7 @@ vim.pack.add({
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/nvim-tree/nvim-web-devicons',
     'https://github.com/echasnovski/mini.icons',
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
 }, { confirm = false })
 
 local post_update_or_install_group =
@@ -25,4 +26,7 @@ end, {})
 
 require('nvim-web-devicons').setup({})
 require('mini.icons').setup({})
+
+require('catppuccin').setup(require('me.config.colourscheme'))
+vim.cmd('colorscheme catppuccin')
 
