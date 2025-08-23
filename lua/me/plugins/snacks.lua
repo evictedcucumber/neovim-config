@@ -53,7 +53,8 @@ return {
             '**/.cache/',
             '**/target/',
             '**/docs/',
-            '**/doc/api',
+            '**/doc/api/',
+            '**/.trash/',
         }
 
         require('snacks').setup({
