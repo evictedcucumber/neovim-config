@@ -1,0 +1,15 @@
+return {
+    'vim',
+    'regex',
+    'lua',
+    'bash',
+    'markdown',
+    'markdown-inline',
+    'python',
+    'editorconfig',
+    'rust',
+    'toml',
+    'make',
+    'comment',
+    'nix',
+}

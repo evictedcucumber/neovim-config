@@ -5,6 +5,11 @@ vim.pack.add({
     'https://github.com/echasnovski/mini.icons',
     { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
     'https://github.com/folke/snacks.nvim',
+    {
+        src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+        version = 'main',
+    },
+    'https://github.com/nvim-treesitter/nvim-treesitter-context',
 }, { confirm = false })
 
 local post_update_or_install_group =
@@ -18,6 +23,18 @@ vim.api.nvim_create_autocmd('User', {
         local name = spec.name or ''
         local src = spec.src or ''
 
+        if data.kind == 'install' or data.kind == 'update' then
+            vim.notify('matched kind')
+            if
+                name == 'nvim-treesitter'
+                or src:find('nvim%-treesitter/nvim%-treesitter')
+            then
+                vim.notify('matched treesitter')
+                vim.schedule(function()
+                    vim.cmd('TSUpdate')
+                end)
+            end
+        end
     end,
 })
 
@@ -45,3 +62,5 @@ vim.keymap.set('n', '<leader>sk', function()
     require('snacks').picker.keymaps()
 end, { desc = '[S]earch [K]eymaps' })
 
+require('nvim-treesitter').install(require('me.config.treesitter'))
+require('treesitter-context').setup({ max_lines = 3 })
