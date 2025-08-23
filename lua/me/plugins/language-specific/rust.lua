@@ -4,6 +4,12 @@ return {
     version = '^6',
     lazy = false,
     init = function()
+        local capabilities =
+            require('blink.cmp').get_lsp_capabilities(nil, true)
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
         vim.g.rustaceanvim = {
             tools = {
                 ---@type vim.lsp.util.open_floating_preview.Opts
@@ -100,10 +106,7 @@ return {
                         opts('Select and Run Rust [D]ebuggables')
                     )
                 end,
-                capabilities = require('blink.cmp').get_lsp_capabilities(
-                    nil,
-                    true
-                ),
+                capabilities = capabilities,
                 standalone = false,
             },
         }
