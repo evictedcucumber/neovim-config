@@ -1,0 +1,5 @@
+require('me.globals')
+require('me.options')
+require('me.keymaps')
+require('me.autocmds')
+require('me.plugins')
