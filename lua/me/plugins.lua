@@ -98,6 +98,9 @@ add_post_pack_install_update_hook('blink.cmp', function(path)
     end)
 end)
 
+add_plugin('evictedcucumber/lazydev.nvim')
+safe_setup('lazydev', {})
+
 add_plugin('Saghen/blink.cmp')
 safe_setup('blink.cmp', require('me.config.blink'))
 vim.lsp.config('*', {
