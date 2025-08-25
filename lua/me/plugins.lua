@@ -60,5 +60,26 @@ vim.keymap.set('n', '<leader>sk', function()
     require('snacks').picker.keymaps()
 end, { desc = '[S]earch [K]eymaps' })
 
-require('nvim-treesitter').install(require('me.config.treesitter'))
-require('treesitter-context').setup({ max_lines = 3 })
+add_post_pack_install_update_hook('nvim-treesitter', function()
+    vim.schedule(function()
+        vim.notify('Starting nvim-treesitter update', vim.log.levels.INFO)
+        require('nvim-treesitter').update():wait()
+        vim.notify('Finished nvim-treesitter update', vim.log.levels.INFO)
+    end)
+end)
+add_plugins({
+    { src = 'nvim-treesitter/nvim-treesitter', version = 'main' },
+    { src = 'nvim-treesitter/nvim-treesitter-context' },
+})
+local ts_require_ok, ts_require_value = pcall(require, 'nvim-treesitter')
+if ts_require_ok then
+    local ts_install_ok, ts_install_err =
+        pcall(ts_require_value.install, require('me.config.treesitter'))
+    if not ts_install_ok then
+        vim.print(ts_install_err)
+    end
+else
+    vim.print(ts_require_value)
+end
+safe_setup('treesitter-context', { max_lines = 3 })
+
