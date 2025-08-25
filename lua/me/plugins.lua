@@ -107,3 +107,6 @@ vim.lsp.config('*', {
     capabilities = require('blink.cmp').get_lsp_capabilities(nil, true),
 })
 
+add_plugin('j-hui/fidget.nvim')
+safe_setup('fidget', { notification = { window = { winblend = 0 } } })
+
