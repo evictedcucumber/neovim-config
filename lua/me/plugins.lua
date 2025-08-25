@@ -110,3 +110,5 @@ vim.lsp.config('*', {
 add_plugin('j-hui/fidget.nvim')
 safe_setup('fidget', { notification = { window = { winblend = 0 } } })
 
+add_plugin('stevearc/conform.nvim')
+safe_setup('conform', require('me.config.conform'))
