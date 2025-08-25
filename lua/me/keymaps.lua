@@ -12,3 +12,12 @@ vim.keymap.set('v', '>', '>gv', { desc = 'Ident Right' }) -- indent right and re
 
 -- better `J` behaviour
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = '[J]oin Line Below' }) -- join line below cursor to the current line maintaining cursor position
+
+-- clipboard
+vim.keymap.set(
+    { 'n', 'v' },
+    '<leader>y',
+    '"+y',
+    { desc = '[Y]ank Selection to Clipboard' }
+) -- yank selection to clipboard
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = '[Y]ank Line to Clipboard' }) -- yank line to clipboard
