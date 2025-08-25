@@ -84,3 +84,6 @@ else
 end
 safe_setup('treesitter-context', { max_lines = 3 })
 
+add_plugin('folke/which-key.nvim')
+safe_setup('which-key', { preset = 'helix', win = { wo = { winblend = 0 } } })
+
