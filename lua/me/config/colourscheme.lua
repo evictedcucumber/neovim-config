@@ -14,5 +14,15 @@ return {
         },
         treesitter = true,
         treesitter_context = true,
+        which_key = true,
+        blink_cmp = {
+            style = 'bordered',
+        },
+        native_lsp = {
+            enabled = true,
+            inlay_hints = {
+                background = true,
+            },
+        },
     },
 }

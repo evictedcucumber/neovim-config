@@ -41,7 +41,8 @@ add_plugins({ { src = 'nvim-lua/plenary.nvim' } })
 add_plugin('nvim-tree/nvim-web-devicons')
 safe_setup('nvim-web-devicons', {})
 
-require('catppuccin').setup(require('me.config.colourscheme'))
+add_plugin('catppuccin/nvim', 'catppuccin')
+safe_setup('catppuccin', require('me.config.colourscheme'))
 vim.cmd('colorscheme catppuccin')
 
 require('snacks').setup(require('me.config.snacks'))
