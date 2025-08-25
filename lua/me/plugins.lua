@@ -36,6 +36,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
     end,
 })
 
+add_plugins({ { src = 'nvim-lua/plenary.nvim' } })
 
 require('nvim-web-devicons').setup({})
 require('mini.icons').setup({})
