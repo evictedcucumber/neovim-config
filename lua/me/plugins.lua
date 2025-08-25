@@ -87,3 +87,20 @@ safe_setup('treesitter-context', { max_lines = 3 })
 add_plugin('folke/which-key.nvim')
 safe_setup('which-key', { preset = 'helix', win = { wo = { winblend = 0 } } })
 
+add_post_pack_install_update_hook('blink.cmp', function(path)
+    vim.schedule(function()
+        vim.notify('Starting blink.cmp build', vim.log.levels.INFO)
+        vim.system(
+            { 'nix', 'run', '--accept-flake-config', '.#build-plugin' },
+            { cwd = path }
+        ):wait()
+        vim.notify('Finished blink.cmp build', vim.log.levels.INFO)
+    end)
+end)
+
+add_plugin('Saghen/blink.cmp')
+safe_setup('blink.cmp', require('me.config.blink'))
+vim.lsp.config('*', {
+    capabilities = require('blink.cmp').get_lsp_capabilities(nil, true),
+})
+
