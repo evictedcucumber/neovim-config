@@ -38,8 +38,8 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 add_plugins({ { src = 'nvim-lua/plenary.nvim' } })
 
-require('nvim-web-devicons').setup({})
-require('mini.icons').setup({})
+add_plugin('nvim-tree/nvim-web-devicons')
+safe_setup('nvim-web-devicons', {})
 
 require('catppuccin').setup(require('me.config.colourscheme'))
 vim.cmd('colorscheme catppuccin')
