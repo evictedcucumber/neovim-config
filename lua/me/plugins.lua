@@ -72,19 +72,25 @@ add_post_pack_install_update_hook('nvim-treesitter', function()
         vim.notify('Finished nvim-treesitter update', vim.log.levels.INFO)
     end)
 end)
-plug('nvim-treesitter/nvim-treesitter', 'nvim-treesitter', nil, function()
-    require('nvim-treesitter').install(require('me.config.treesitter'))
+plug(
+    { src = 'nvim-treesitter/nvim-treesitter', version = 'main' },
+    'nvim-treesitter',
+    nil,
+    function()
+        require('nvim-treesitter').install(require('me.config.treesitter'))
 
-    vim.api.nvim_create_autocmd('FileType', {
-        group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
-        pattern = require('me.config.treesitter'),
-        callback = function()
-            vim.treesitter.start()
-            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-            vim.bo.indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
-        end,
-    })
-end)
+        vim.api.nvim_create_autocmd('FileType', {
+            group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
+            pattern = require('me.config.treesitter'),
+            callback = function()
+                vim.treesitter.start()
+                vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+                vim.bo.indentexpr =
+                    'v:lua.require"nvim-treesitter".indentexpr()'
+            end,
+        })
+    end
+)
 plug(
     'nvim-treesitter/nvim-treesitter-context',
     'treesitter-context',
