@@ -24,5 +24,6 @@ return {
                 background = true,
             },
         },
+        render_markdown = true,
     },
 }

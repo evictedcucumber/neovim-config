@@ -87,5 +87,4 @@ vim.o.splitright = true -- vertical splits go right
 
 -- folding
 vim.o.foldmethod = 'expr' -- use expression for folding
-vim.o.foldexpr = 'v:lua.vim.treesiter.foldexpr()' -- use treesitter
 vim.o.foldlevel = 99 -- open all folds on startup

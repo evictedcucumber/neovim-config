@@ -1,6 +1,7 @@
 local add_plugin = require('me.util').add_plugin
 local add_plugins = require('me.util').add_plugins
 local safe_setup = require('me.util').safe_setup
+local plug = require('me.util').plugin
 local add_post_pack_install_update_hook =
     require('me.util').add_post_pack_install_update_hook
 
@@ -36,30 +37,33 @@ vim.api.nvim_create_autocmd('PackChanged', {
     end,
 })
 
-add_plugins({ { src = 'nvim-lua/plenary.nvim' } })
+plug('nvim-lua/plenary.nvim', 'plenary')
 
+plug('echasnovski/mini.icons', 'mini.icons', {})
 
-add_plugin('echasnovski/mini.icons')
-safe_setup('mini.icons', {})
+plug(
+    'catppuccin/nvim',
+    'catppuccin',
+    require('me.config.colourscheme'),
+    function()
+        vim.cmd('colorscheme catppuccin')
+    end
+)
 
-add_plugin('catppuccin/nvim', 'catppuccin')
-safe_setup('catppuccin', require('me.config.colourscheme'))
-vim.cmd('colorscheme catppuccin')
-
-add_plugin('folke/snacks.nvim')
-safe_setup('snacks', require('me.config.snacks'))
-vim.keymap.set('n', '<leader>sf', function()
-    require('snacks').picker.files()
-end, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sg', function()
-    require('snacks').picker.grep()
-end, { desc = '[S]earch [G]rep' })
-vim.keymap.set('n', '<leader>sh', function()
-    require('snacks').picker.help()
-end, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sk', function()
-    require('snacks').picker.keymaps()
-end, { desc = '[S]earch [K]eymaps' })
+plug('folke/snacks.nvim', 'snacks', require('me.config.snacks'), function()
+    vim.keymap.set('n', '<leader>sf', function()
+        require('snacks').picker.files()
+    end, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>sg', function()
+        require('snacks').picker.grep()
+    end, { desc = '[S]earch [G]rep' })
+    vim.keymap.set('n', '<leader>sh', function()
+        require('snacks').picker.help()
+    end, { desc = '[S]earch [H]elp' })
+    vim.keymap.set('n', '<leader>sk', function()
+        require('snacks').picker.keymaps()
+    end, { desc = '[S]earch [K]eymaps' })
+end)
 
 add_post_pack_install_update_hook('nvim-treesitter', function()
     vim.schedule(function()
@@ -68,24 +72,32 @@ add_post_pack_install_update_hook('nvim-treesitter', function()
         vim.notify('Finished nvim-treesitter update', vim.log.levels.INFO)
     end)
 end)
-add_plugins({
-    { src = 'nvim-treesitter/nvim-treesitter', version = 'main' },
-    { src = 'nvim-treesitter/nvim-treesitter-context' },
-})
-local ts_require_ok, ts_require_value = pcall(require, 'nvim-treesitter')
-if ts_require_ok then
-    local ts_install_ok, ts_install_err =
-        pcall(ts_require_value.install, require('me.config.treesitter'))
-    if not ts_install_ok then
-        vim.print(ts_install_err)
-    end
-else
-    vim.print(ts_require_value)
-end
-safe_setup('treesitter-context', { max_lines = 3 })
+plug('nvim-treesitter/nvim-treesitter', 'nvim-treesitter', nil, function()
+    require('nvim-treesitter').install(require('me.config.treesitter'))
 
-add_plugin('folke/which-key.nvim')
-safe_setup('which-key', { preset = 'helix', win = { wo = { winblend = 0 } } })
+    vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
+        pattern = require('me.config.treesitter'),
+        callback = function()
+            vim.treesitter.start()
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.bo.indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
+        end,
+    })
+end)
+plug(
+    'nvim-treesitter/nvim-treesitter-context',
+    'treesitter-context',
+    { max_lines = 3 }
+)
+
+plug(
+    'folke/which-key.nvim',
+    'which-key',
+    { preset = 'helix', win = { wo = { winblend = 0 } } }
+)
+
+plug('evictedcucumber/lazydev.nvim', 'lazydev', {})
 
 add_post_pack_install_update_hook('blink.cmp', function(path)
     vim.schedule(function()
@@ -97,18 +109,43 @@ add_post_pack_install_update_hook('blink.cmp', function(path)
         vim.notify('Finished blink.cmp build', vim.log.levels.INFO)
     end)
 end)
+plug('Saghen/blink.cmp', 'blink.cmp', require('me.config.blink'), function()
+    vim.lsp.config('*', {
+        capabilities = require('blink.cmp').get_lsp_capabilities(nil, true),
+    })
+end)
 
-add_plugin('evictedcucumber/lazydev.nvim')
-safe_setup('lazydev', {})
+plug(
+    'j-hui/fidget.nvim',
+    'fidget',
+    { notification = { window = { winblend = 0 } } }
+)
 
-add_plugin('Saghen/blink.cmp')
-safe_setup('blink.cmp', require('me.config.blink'))
-vim.lsp.config('*', {
-    capabilities = require('blink.cmp').get_lsp_capabilities(nil, true),
-})
+plug('stevearc/conform.nvim', 'conform', require('me.config.conform'))
 
-add_plugin('j-hui/fidget.nvim')
-safe_setup('fidget', { notification = { window = { winblend = 0 } } })
+plug('nvim-lualine/lualine.nvim', 'lualine', require('me.config.lualine'))
 
-add_plugin('stevearc/conform.nvim')
-safe_setup('conform', require('me.config.conform'))
+plug('mikavilpas/yazi.nvim', 'yazi', { open_for_directories = true }, function()
+    vim.keymap.set(
+        'n',
+        '-',
+        '<cmd>Yazi<CR>',
+        { desc = 'Open Yazi at Current File' }
+    )
+    vim.keymap.set(
+        'n',
+        '_',
+        '<cmd>Yazi cwd<CR>',
+        { desc = 'Open Yazi at Current Working Directory' }
+    )
+end)
+
+plug('echasnovski/mini.move', 'mini.move', {})
+
+plug(
+    'MeanderingProgrammer/render-markdown.nvim',
+    'render-markdown',
+    require('me.config.render-markdown')
+)
+
+plug('obsidian-nvim/obsidian.nvim', 'obsidian', require('me.config.obsidian'))

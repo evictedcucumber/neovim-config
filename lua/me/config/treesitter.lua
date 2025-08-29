@@ -12,4 +12,7 @@ return {
     'make',
     'comment',
     'nix',
+    'latex',
+    'html',
+    'yaml',
 }

@@ -6,6 +6,7 @@ local exclude = {
     '**/docs/',
     '**/doc/api/',
     '**/.trash/',
+    '**/.direnv/',
 }
 
 return {

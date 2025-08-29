@@ -1,49 +1,53 @@
 local M = {}
 
----@class me.Plugin
----@field src string
----@field name? string
----@field version? string|vim.VersionRange
-
----@param src string
----@param name? string
----@param version? string|vim.VersionRange
-function M.add_plugin(src, name, version)
-    ---@type vim.pack.Spec
-    local spec = { src = 'https://github.com/' .. src }
-    if name then
-        spec.name = name
-    end
-    if version then
-        spec.version = version
+---@param spec string|vim.pack.Spec
+---@param require_name string
+---@param opts? table
+---@param config? fun():nil
+function M.plugin(spec, require_name, opts, config)
+    if type(spec) == 'string' then
+        spec = { src = 'https://github.com/' .. spec }
+    elseif type(spec) == 'table' then
+        spec.src = 'https://github.com/' .. spec.src
+    else
+        vim.notify('Invaild plugin name or spec given', vim.log.levels.ERROR)
+        return
     end
 
-    local ok, err = pcall(vim.pack.add, { spec }, { confirm = false })
-    if not ok then
-        vim.print(err)
+    local add_ok, err = pcall(vim.pack.add, { spec })
+    if not add_ok then
+        vim.notify('Faild to add plugin: ' .. err, vim.log.levels.ERROR)
+        return
     end
-end
 
----@param plugins me.Plugin[]
-function M.add_plugins(plugins)
-    for _, plugin in ipairs(plugins) do
-        M.add_plugin(plugin.src, plugin.name, plugin.version)
-    end
-end
-
----@param name string
----@param opts table
-function M.safe_setup(name, opts)
-    local require_ok, require_value = pcall(require, name)
+    local require_ok, required = pcall(require, require_name)
     if not require_ok then
-        vim.print(require_value)
+        vim.notify(
+            'Unable to require plugin with name `' .. require_name .. '`',
+            vim.log.levels.ERROR
+        )
         return
     end
 
-    local setup_ok, err = pcall(require_value.setup, opts)
-    if not setup_ok then
-        vim.print(err)
-        return
+    if opts then
+        local setup_ok, _ = pcall(required.setup, opts)
+        if not setup_ok then
+            vim.notify(
+                'Unabe to call setup for plugin `' .. require_name .. '`',
+                vim.log.levels.ERROR
+            )
+            return
+        end
+    end
+
+    if config then
+        local config_ok, _ = pcall(config)
+        if not config_ok then
+            vim.notify(
+                'Unable to call config for plugin `' .. require_name .. '`',
+                vim.log.levels.ERROR
+            )
+        end
     end
 end
 
