@@ -3,7 +3,7 @@
 return {
     preset = 'obsidian',
     completions = {
-        blink = {
+        lsp = {
             enabled = true,
         },
     },
