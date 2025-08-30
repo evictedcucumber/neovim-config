@@ -1,6 +1,3 @@
-local add_plugin = require('me.util').add_plugin
-local add_plugins = require('me.util').add_plugins
-local safe_setup = require('me.util').safe_setup
 local plug = require('me.util').plugin
 local add_post_pack_install_update_hook =
     require('me.util').add_post_pack_install_update_hook
