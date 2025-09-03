@@ -12,16 +12,5 @@
 return {
     cmd = { 'marksman', 'server' },
     filetypes = { 'markdown', 'markdown.mdx' },
-    ---@param bufnr number
-    ---@param on_dir fun(root_dir?: string)
-    root_dir = function(bufnr, on_dir)
-        local obsidian_path = vim.fn.expand('~/myvault/')
-        local name = vim.api.nvim_buf_get_name(bufnr)
-
-        if name:sub(1, #obsidian_path) == obsidian_path then
-            return
-        end
-
-        return on_dir(vim.fn.getcwd())
-    end,
+    root_markers = { '.marksman.toml', '.git' },
 }
