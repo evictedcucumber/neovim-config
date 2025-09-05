@@ -11,10 +11,4 @@ return {
         event = { 'BufNewFile', 'BufReadPre' },
         opts = {},
     },
-    {
-        'echasnovski/mini.cursorword',
-        version = false,
-        event = { 'BufNewFile', 'BufReadPre' },
-        opts = {},
-    },
 }

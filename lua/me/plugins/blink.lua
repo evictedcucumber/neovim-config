@@ -35,7 +35,7 @@ return {
         },
         fuzzy = {
             implementation = 'rust',
-            use_frecency = true,
+            frecency = { enabled = true },
             use_proximity = true,
         },
         cmdline = {
