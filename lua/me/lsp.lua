@@ -15,7 +15,7 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.HINT] = '󰌶 ',
         },
     },
-    virtual_text = true,
+    virtual_text = { source = 'if_many', spacing = 2 },
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -102,44 +102,37 @@ vim.api.nvim_create_autocmd('LspAttach', {
             end,
         })
 
-        if client:supports_method('textDocument/formatting', bufnr) then
-            local function format()
-                vim.lsp.buf.format({ bufnr = bufnr, id = client.id })
-            end
+        if client:supports_method('textDocument/documentHighlight', bufnr) then
+            local highlight_group = vim.api.nvim_create_augroup(
+                'lsp_highlight_augroup',
+                { clear = false }
+            )
 
-            vim.api.nvim_create_autocmd('BufWritePre', {
-                group = vim.api.nvim_create_augroup('FORMATTING', {}),
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                group = highlight_group,
                 buffer = bufnr,
-                callback = format,
+                callback = vim.lsp.buf.document_highlight,
             })
 
-            vim.keymap.set(
-                'n',
-                '<leader>fm',
-                format,
-                opts('LSP [F]or[m]at Buffer')
-            )
-        end
-
-        local formatter_info, _ =
-            require('conform').list_formatters_to_run(bufnr)
-        if #formatter_info ~= 0 then
-            local conform_opts = {
-                bufnr = bufnr,
-                lsp_format = 'never',
-                timeout_ms = 500,
-            }
-            vim.api.nvim_create_autocmd('BufWritePre', {
-                group = vim.api.nvim_create_augroup('FORMATTING', {}),
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                group = highlight_group,
                 buffer = bufnr,
-                callback = function()
-                    require('conform').format(conform_opts)
+                callback = vim.lsp.buf.clear_references,
+            })
+
+            vim.api.nvim_create_autocmd('LspDetach', {
+                group = vim.api.nvim_create_augroup(
+                    'lsp_detach_augroup',
+                    { clear = true }
+                ),
+                callback = function(event)
+                    vim.lsp.buf.clear_references()
+                    vim.api.nvim_clear_autocmds({
+                        group = highlight_group,
+                        buffer = event.buf,
+                    })
                 end,
             })
-
-            vim.keymap.set('n', '<leader>fm', function()
-                require('conform').format(conform_opts)
-            end, opts('Conform [F]or[m]at Buffer'))
         end
     end,
 })
