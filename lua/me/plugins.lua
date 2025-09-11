@@ -298,16 +298,16 @@ pack_add({ 'https://github.com/nvim-lualine/lualine.nvim' })
 require('lualine').setup({
     options = {
         theme = 'catppuccin',
-        disabled_filetypes = {
-            statusline = {
-                'dapui_scopes',
-                'dapui_breakpoints',
-                'dapui_stacks',
-                'dapui_watches',
-                'dap-repl',
-                'dapui_console',
-            },
-        },
+        -- disabled_filetypes = {
+        --     statusline = {
+        --         'dapui_scopes',
+        --         'dapui_breakpoints',
+        --         'dapui_stacks',
+        --         'dapui_watches',
+        --         'dap-repl',
+        --         'dapui_console',
+        --     },
+        -- },
     },
     sections = {
         lualine_a = { 'mode' },
