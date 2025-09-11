@@ -146,7 +146,11 @@ pack_add({ 'https://github.com/nvim-treesitter/nvim-treesitter-context' })
 require('treesitter-context').setup({ max_lines = 3 })
 
 pack_add({ 'https://github.com/folke/which-key.nvim' })
-require('which-key').setup({ preset = 'helix', win = { wo = { winblend = 0 } } })
+require('which-key').setup({
+    preset = 'helix',
+    win = { wo = { winblend = 0 } },
+    icons = { mappings = true, icons = {} },
+})
 
 vim.api.nvim_create_autocmd('PackChanged', {
     group = post_pack_changed_augroup,
