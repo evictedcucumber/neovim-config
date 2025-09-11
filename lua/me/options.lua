@@ -84,6 +84,7 @@ vim.o.wildmode = 'longest:full,full' -- completion mode for cmdline
 vim.o.wildignorecase = true -- case-insensitive completion for cmdline
 vim.o.splitbelow = true -- horizontal splits go below
 vim.o.splitright = true -- vertical splits go right
+vim.o.confirm = true -- shows confirm dialog on certain action failures
 
 -- folding
 vim.o.foldmethod = 'expr' -- use expression for folding
