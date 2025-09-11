@@ -274,12 +274,25 @@ pack_add({ 'https://github.com/j-hui/fidget.nvim' })
 require('fidget').setup({ notification = { window = { winblend = 0 } } })
 
 pack_add({ 'https://github.com/stevearc/conform.nvim' })
+---@type conform.FormatOpts
+local conform_format_opts = { lsp_format = 'fallback', timeout_ms = 500 }
 require('conform').setup({
     formatters_by_ft = {
         lua = { 'stylua' },
         markdown = { 'prettierd' },
     },
+    format_on_save = function(buffer)
+        local disabled_filetypes = {}
+        if disabled_filetypes[vim.bo[buffer].filetype] then
+            return nil
+        end
+
+        return conform_format_opts
+    end,
 })
+keymap('n', '<leader>fm', function()
+    require('conform').format(conform_format_opts)
+end, { desc = '[F]or[m]at Buffer' })
 
 pack_add({ 'https://github.com/nvim-lualine/lualine.nvim' })
 require('lualine').setup({
