@@ -137,4 +137,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
-vim.lsp.enable({ 'lua_ls', 'nixd', 'autotools_ls', 'marksman', 'taplo' })
+vim.lsp.enable({
+    'lua_ls',
+    'nixd',
+    'autotools_ls',
+    'marksman',
+    'taplo',
+    'harper_ls',
+})
