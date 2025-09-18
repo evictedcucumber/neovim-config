@@ -12,6 +12,22 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end,
 })
 
+-- remember cursor positon when switching buffers
+vim.api.nvim_create_autocmd('BufLeave', {
+    group = last_cursor_group,
+    callback = function(ev)
+        vim.b[ev.buf].last_cursor = vim.api.nvim_win_get_cursor(0)
+    end,
+})
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = last_cursor_group,
+    callback = function(ev)
+        if vim.b[ev.buf].last_cursor then
+            pcall(vim.api.nvim_win_set_cursor, 0, vim.b[ev.buf].last_cursor)
+        end
+    end,
+})
+
 -- highlight the yanked text for 200ms
 local highlight_yank_group =
     vim.api.nvim_create_augroup('HighlightYank', { clear = true })
