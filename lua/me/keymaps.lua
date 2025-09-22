@@ -21,3 +21,9 @@ vim.keymap.set(
     { desc = '[Y]ank Selection to Clipboard' }
 ) -- yank selection to clipboard
 vim.keymap.set('n', '<leader>Y', '"+Y', { desc = '[Y]ank Line to Clipboard' }) -- yank line to clipboard
+vim.keymap.set(
+    { 'n', 'v' },
+    '<leader>p',
+    '"+p',
+    { desc = '[P]aste from Clipboard' }
+) -- paste from clipboard
