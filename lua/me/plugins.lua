@@ -1,49 +1,59 @@
----@param specs (string|vim.pack.Spec)[]
-local pack_add = function(specs)
-    vim.pack.add(specs, { confirm = false })
-end
 local keymap = vim.keymap.set
 
-local add_post_pack_install_update_hook =
-    require('me.util').add_post_pack_install_update_hook
-
-local post_pack_changed_augroup =
-    vim.api.nvim_create_augroup('PackPostUpdateOrInstall', { clear = true })
 vim.api.nvim_create_autocmd('PackChanged', {
-    callback = function(args)
-        local data = args.data or {}
-        local kind = data.kind or ''
-        local spec = data.spec or {}
-        local name = spec.name or ''
+    group = vim.api.nvim_create_augroup('PackChangedHook', { clear = true }),
+    callback = function(ev)
+        local name, kind, path = ev.data.spec.name, ev.data.kind, ev.data.path
 
-        if kind == 'install' or kind == 'update' then
-            for _, entry in
-                ipairs(require('me.util').post_pack_install_update_hooks)
-            do
-                local hooked_name, hook = entry.name, entry.hook
-                if hooked_name == name then
-                    vim.cmd('packadd ' .. hooked_name)
-                    hook()
-                end
-            end
+        if name == 'nvim-treesitter' and kind == 'update' then
+            require('nvim-treesitter').update():wait()
+            return
+        end
+
+        if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
+            vim.system(
+                { 'nix', 'run', '--accept-flake-config', '.#build-plugin' },
+                { cwd = path }
+            ):wait()
         end
     end,
 })
 
+vim.pack.add({
+    'https://github.com/nvim-lua/plenary.nvim',
+    'https://github.com/nvim-mini/mini.icons',
+    'https://github.com/nvim-tree/nvim-web-devicons',
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
+    'https://github.com/folke/lazydev.nvim',
+    'https://github.com/folke/snacks.nvim',
+    {
+        src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+        version = 'main',
+    },
+    'https://github.com/nvim-treesitter/nvim-treesitter-context',
+    'https://github.com/folke/which-key.nvim',
+    'https://github.com/Saghen/blink.cmp',
+    'https://github.com/j-hui/fidget.nvim',
+    'https://github.com/stevearc/conform.nvim',
+    'https://github.com/nvim-lualine/lualine.nvim',
+    'https://github.com/mikavilpas/yazi.nvim',
+    'https://github.com/nvim-mini/mini.move',
+    'https://github.com/nvim-mini/mini.surround',
+    'https://github.com/nvim-mini/mini.align',
+    'https://github.com/nvim-mini/mini.ai',
+    'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+    'https://github.com/obsidian-nvim/obsidian.nvim',
+    'https://github.com/mrcjkb/rustaceanvim',
+}, { confirm = false })
+
 vim.api.nvim_create_user_command('PackUpdate', 'lua vim.pack.update()', {})
 
-pack_add({ 'https://github.com/nvim-lua/plenary.nvim' })
-
 -- ICONS
-pack_add({ 'https://github.com/nvim-mini/mini.icons' })
 require('mini.icons').setup({})
-pack_add({ 'https://github.com/nvim-tree/nvim-web-devicons' })
 require('nvim-web-devicons').setup({})
 -- /ICONS
 
-pack_add({
-    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
-})
+-- THEME
 require('catppuccin').setup({
     flavour = 'mocha',
     background = { dark = 'mocha' },
@@ -62,11 +72,9 @@ require('catppuccin').setup({
     },
 })
 vim.cmd('colorscheme catppuccin')
+-- /THEME
 
-pack_add({ 'https://github.com/evictedcucumber/lazydev.nvim' })
-require('lazydev').setup({})
-
-pack_add({ 'https://github.com/folke/snacks.nvim' })
+-- SNACKS
 local exclude = {
     '**/*.lock',
     '**/build/',
@@ -102,18 +110,9 @@ end, { desc = '[S]earch [H]elp' })
 keymap('n', '<leader>sk', function()
     require('snacks').picker.keymaps()
 end, { desc = '[S]earch [K]eymaps' })
+-- /SNACKS
 
-add_post_pack_install_update_hook('nvim-treesitter', function()
-    vim.schedule(function()
-        require('nvim-treesitter').update():wait()
-    end)
-end)
-pack_add({
-    {
-        src = 'https://github.com/nvim-treesitter/nvim-treesitter',
-        version = 'main',
-    },
-})
+-- TREESITTER
 local ts_languages = {
     'vim',
     'regex',
@@ -133,6 +132,7 @@ local ts_languages = {
     'yaml',
 }
 require('nvim-treesitter').install(ts_languages)
+require('treesitter-context').setup({ max_lines = 3 })
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
     pattern = ts_languages,
@@ -142,54 +142,18 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.bo.indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
     end,
 })
-pack_add({ 'https://github.com/nvim-treesitter/nvim-treesitter-context' })
-require('treesitter-context').setup({ max_lines = 3 })
+-- /TREESITTER
 
-pack_add({ 'https://github.com/folke/which-key.nvim' })
+-- WHICH-KEY
 require('which-key').setup({
     preset = 'helix',
     win = { wo = { winblend = 0 } },
     icons = { mappings = true, icons = {} },
 })
+-- /WHICH-KEY
 
-vim.api.nvim_create_autocmd('PackChanged', {
-    group = post_pack_changed_augroup,
-    callback = function(ev)
-        local data = ev.data
-        if not data then
-            return
-        end
-
-        if data.kind == 'install' or data.kind == 'update' then
-            if data.spec.name == 'blink.cmp' then
-                vim.notify('is blink')
-                vim.schedule(function()
-                    vim.system({
-                        'nix',
-                        'run',
-                        '--accept-flake-config',
-                        '.#build-plugin',
-                    }, {
-                        cwd = data.path,
-                        stderr = function(_, stderr)
-                            if not stderr then
-                                return
-                            end
-
-                            vim.schedule(function()
-                                vim.notify(stderr)
-                                -- vim.schedule(function()
-                                --     vim.api.nvim_echo({ { data } }, true, {})
-                                -- end)
-                            end)
-                        end,
-                    }):wait()
-                end)
-            end
-        end
-    end,
-})
-pack_add({ 'https://github.com/Saghen/blink.cmp' })
+-- COMPLETION
+require('lazydev').setup({})
 require('blink-cmp').setup({
     completion = {
         list = { selection = { preselect = false } },
@@ -269,11 +233,15 @@ require('blink-cmp').setup({
 vim.lsp.config('*', {
     capabilities = require('blink.cmp').get_lsp_capabilities(nil, true),
 })
+-- /COMPLETION
 
-pack_add({ 'https://github.com/j-hui/fidget.nvim' })
-require('fidget').setup({ notification = { window = { winblend = 0 } } })
+-- NOTIFICATION
+require('fidget').setup({
+    notification = { override_vim_notify = true, window = { winblend = 0 } },
+})
+-- /NOTIFICATION
 
-pack_add({ 'https://github.com/stevearc/conform.nvim' })
+-- FORMATTING
 ---@type conform.FormatOpts
 local conform_format_opts = { lsp_format = 'fallback', timeout_ms = 500 }
 require('conform').setup({
@@ -293,8 +261,9 @@ require('conform').setup({
 keymap('n', '<leader>fm', function()
     require('conform').format(conform_format_opts)
 end, { desc = '[F]or[m]at Buffer' })
+-- /FORMATTING
 
-pack_add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+-- LUALINE
 require('lualine').setup({
     options = {
         theme = 'catppuccin',
@@ -318,8 +287,9 @@ require('lualine').setup({
         lualine_z = { 'location' },
     },
 })
+-- /LUALINE
 
-pack_add({ 'https://github.com/mikavilpas/yazi.nvim' })
+-- EXPLORER
 require('yazi').setup({ open_for_directories = true })
 keymap('n', '-', '<cmd>Yazi<CR>', { desc = 'Open Yazi at Current File' })
 keymap(
@@ -328,28 +298,22 @@ keymap(
     '<cmd>Yazi cwd<CR>',
     { desc = 'Open Yazi at Current Working Directory' }
 )
+-- /EXPLORER
 
 -- MINI PLUGINS
-pack_add({
-    'https://github.com/nvim-mini/mini.move',
-    'https://github.com/nvim-mini/mini.surround',
-    'https://github.com/nvim-mini/mini.align',
-    'https://github.com/nvim-mini/mini.ai',
-})
 require('mini.move').setup({})
 require('mini.surround').setup({})
 require('mini.align').setup({})
 require('mini.ai').setup({})
 -- /MINI PLUGINS
 
-pack_add({ 'https://github.com/MeanderingProgrammer/render-markdown.nvim' })
+-- MARKDOWN
 require('render-markdown').setup({
     preset = 'obsidian',
     completions = { lsp = { enabled = true } },
     render_modes = { 'n', 'c', 't' },
 })
 
-pack_add({ 'https://github.com/obsidian-nvim/obsidian.nvim' })
 require('obsidian').setup({
     -- TODO: Remove when plugin goes to 4.0
     legacy_commands = false,
@@ -359,9 +323,9 @@ require('obsidian').setup({
     picker = { name = 'snacks.pick' },
     ui = { enable = false },
 })
+-- /MARKDOWN
 
 -- RUST
-pack_add({ 'https://github.com/mrcjkb/rustaceanvim' })
 vim.g.rustaceanvim = {
     tools = {
         ---@type vim.lsp.util.open_floating_preview.Opts
