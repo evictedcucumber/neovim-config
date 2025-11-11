@@ -27,22 +27,3 @@ vim.keymap.set(
     '"+p',
     { desc = '[P]aste from Clipboard' }
 ) -- paste from clipboard
-
--- window management
-vim.keymap.set('n', '<C-h', '<C-W>h', { desc = 'Move to Window Left' })
-vim.keymap.set('n', '<C-j', '<C-W>j', { desc = 'Move to Window Down' })
-vim.keymap.set('n', '<C-k', '<C-W>k', { desc = 'Move to Window Up' })
-vim.keymap.set('n', '<C-l', '<C-W>l', { desc = 'Move to Window Right' })
-vim.keymap.set(
-    'n',
-    '<leader>-',
-    '<cmd>split<CR>',
-    { desc = 'Create Horizontal Split' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>\\',
-    '<cmd>vsplit<CR>',
-    { desc = 'Create Vertical Split' }
-)
-vim.keymap.set('n', '<leader>x', '<C-W>q', { desc = 'Close Current Window' })
