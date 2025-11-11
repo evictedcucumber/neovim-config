@@ -17,6 +17,11 @@
 --- })
 --- ```
 
+local workspace_dict_path = '.harper-dictionary.txt'
+if vim.fn.getcwd() == vim.fn.expand('~/myvault') then
+    workspace_dict_path = '.obsidian/harper-dictionary.json'
+end
+
 ---@type vim.lsp.Config
 return {
     cmd = { 'harper-ls', '--stdio' },
@@ -25,6 +30,9 @@ return {
     settings = {
         ['harper-ls'] = {
             dialect = 'British',
+            workspaceDictPath = workspace_dict_path,
+            userDictPath = vim.fn.stdpath('config')
+                .. '/.user-harper-dictionary.txt',
         },
     },
 }
