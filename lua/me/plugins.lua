@@ -110,6 +110,9 @@ end, { desc = '[S]earch [H]elp' })
 keymap('n', '<leader>sk', function()
     require('snacks').picker.keymaps()
 end, { desc = '[S]earch [K]eymaps' })
+keymap('n', '<leader>sb', function()
+    require('snacks').picker.buffers()
+end, { desc = '[S]earch [B]uffers' })
 -- /SNACKS
 
 -- TREESITTER
