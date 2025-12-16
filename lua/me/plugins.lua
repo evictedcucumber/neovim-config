@@ -321,7 +321,9 @@ require('render-markdown').setup({
 require('obsidian').setup({
     -- TODO: Remove when plugin goes to 4.0
     legacy_commands = false,
-    workspaces = { { name = 'myvault', path = '~/myvault' } },
+    workspaces = {
+        { name = 'myvault', path = '~/Documents/My Obsidian Vault' },
+    },
     completion = { nvim_cmp = false, blink = true },
     new_notes_dir = 'current_dir',
     picker = { name = 'snacks.pick' },
