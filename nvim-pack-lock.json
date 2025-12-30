@@ -1,7 +1,7 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "ceed1545929b74cf79b5a8950e7c415683bf690b",
+      "rev": "18712d9d292dd362067de74d3b54eb90ce860ba9",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "catppuccin": {
@@ -9,7 +9,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {
-      "rev": "5420c4b5ea0aeb99c09cfbd4fd0b70d257b44f25",
+      "rev": "df83eeaab265dacd2eef139a78e502a3f8926618",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fidget.nvim": {
@@ -29,11 +29,11 @@
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.align": {
-      "rev": "60c61c8",
+      "rev": "85e495b0987bc6277411e5f2305fea6d5d91f50a",
       "src": "https://github.com/nvim-mini/mini.align"
     },
     "mini.icons": {
-      "rev": "ff2e4f1",
+      "rev": "efc85e42262cd0c9e1fdbf806c25cb0be6de115c",
       "src": "https://github.com/nvim-mini/mini.icons"
     },
     "mini.move": {
@@ -41,11 +41,11 @@
       "src": "https://github.com/nvim-mini/mini.move"
     },
     "mini.surround": {
-      "rev": "88c5229",
+      "rev": "cc7b9d0a056b5fa6915ffac1cb91f29bf7c96f69",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "nvim-treesitter": {
-      "rev": "6e42d823ce0a5a76180c473c119c7677738a09d1",
+      "rev": "7efc1b58a8061d29786860006c7257c90a5196dc",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -58,7 +58,7 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "obsidian.nvim": {
-      "rev": "dea6e8b6e0c1ac0b4011fc43c03e21c5e3313397",
+      "rev": "a682c2cb7ec0ecc46a65d9dd55037b7c6d51dcd8",
       "src": "https://github.com/obsidian-nvim/obsidian.nvim"
     },
     "plenary.nvim": {
@@ -70,7 +70,7 @@
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "rustaceanvim": {
-      "rev": "0fa0462a2d6c9629e0bd03d1902e6a1472ceac3e",
+      "rev": "f074f389e16720aa574b59c33b0c0392ce44449a",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "snacks.nvim": {
@@ -82,7 +82,7 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "yazi.nvim": {
-      "rev": "50d1333a7f6d9ece4f6b09a94cff934a7e9900eb",
+      "rev": "e1b6cb3fe629090dd5cbda257f507469086d5658",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }
