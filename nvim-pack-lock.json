@@ -1,7 +1,7 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "820f1ddf634ec267412e403711bf74be26cac677",
+      "rev": "b137f63d89d0285ca76eed12e1923220e0aff8c1",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "catppuccin": {
@@ -45,7 +45,7 @@
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "nvim-treesitter": {
-      "rev": "e75c007f2747050c2c620dc862c77b8f242551a8",
+      "rev": "f8bbc3177d929dc86e272c41cc15219f0a7aa1ac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -58,7 +58,7 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "obsidian.nvim": {
-      "rev": "acd73830fe2e8a2e0c234073ca2cb6387d59f37b",
+      "rev": "844b95b7770a7792c5081245d73b476bda18a5e4",
       "src": "https://github.com/obsidian-nvim/obsidian.nvim"
     },
     "plenary.nvim": {
@@ -70,7 +70,7 @@
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "rustaceanvim": {
-      "rev": "d09c0639e7f68615db6845570241947198234cd6",
+      "rev": "7469ec39a155120460543a74b55be1f39368aea3",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "snacks.nvim": {
@@ -82,7 +82,7 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "yazi.nvim": {
-      "rev": "5634692fab930cb3ef8359760a11418b2d4d2d85",
+      "rev": "8992f08270a008ab7638ccfb0cf07bb6e9e69f5e",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }
