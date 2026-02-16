@@ -122,7 +122,6 @@ local ts_languages = {
     'lua',
     'bash',
     'markdown',
-    'markdown-inline',
     'python',
     'editorconfig',
     'rust',
@@ -318,17 +317,21 @@ require('render-markdown').setup({
     render_modes = { 'n', 'c', 't' },
 })
 
-require('obsidian').setup({
-    -- TODO: Remove when plugin goes to 4.0
-    legacy_commands = false,
-    workspaces = {
-        { name = 'myvault', path = '~/Documents/My Obsidian Vault' },
-    },
-    completion = { nvim_cmp = false, blink = true },
-    new_notes_dir = 'current_dir',
-    picker = { name = 'snacks.pick' },
-    ui = { enable = false },
-})
+local vault_path = '~/Documents/My Obsidian Vault'
+local vault_stat = vim.uv.fs_stat(vault_path)
+if vault_stat and vault_stat.type == 'directory' then
+    require('obsidian').setup({
+        -- TODO: Remove when plugin goes to 4.0
+        legacy_commands = false,
+        workspaces = {
+            { name = 'myvault', path = vault_path },
+        },
+        completion = { nvim_cmp = false, blink = true },
+        new_notes_dir = 'current_dir',
+        picker = { name = 'snacks.pick' },
+        ui = { enable = false },
+    })
+end
 -- /MARKDOWN
 
 -- RUST
