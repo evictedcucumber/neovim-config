@@ -117,20 +117,24 @@ end, { desc = '[S]earch [B]uffers' })
 
 -- TREESITTER
 local ts_languages = {
-    'vim',
-    'regex',
-    'lua',
+    'gomod',
+    'gosum',
+    'gowork',
+    'go',
     'bash',
-    'markdown',
-    'python',
+    'comment',
     'editorconfig',
+    'html',
+    'latex',
+    'lua',
+    'make',
+    'markdown',
+    'nix',
+    'python',
+    'regex',
     'rust',
     'toml',
-    'make',
-    'comment',
-    'nix',
-    'latex',
-    'html',
+    'vim',
     'yaml',
 }
 require('nvim-treesitter').install(ts_languages)
@@ -251,6 +255,7 @@ require('conform').setup({
         lua = { 'stylua' },
         markdown = { 'prettierd' },
         make = { 'bake' },
+        go = { 'gofmt' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}

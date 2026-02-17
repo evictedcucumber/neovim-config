@@ -144,4 +144,5 @@ vim.lsp.enable({
     'marksman',
     'taplo',
     'harper_ls',
+    'gopls',
 })
