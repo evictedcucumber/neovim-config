@@ -322,7 +322,7 @@ require('render-markdown').setup({
     render_modes = { 'n', 'c', 't' },
 })
 
-local vault_path = '~/Documents/My Obsidian Vault'
+local vault_path = vim.fn.expand('~/Documents/My Obsidian Vault')
 local vault_stat = vim.uv.fs_stat(vault_path)
 if vault_stat and vault_stat.type == 'directory' then
     require('obsidian').setup({
