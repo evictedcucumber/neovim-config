@@ -117,13 +117,13 @@ end, { desc = '[S]earch [B]uffers' })
 
 -- TREESITTER
 local ts_languages = {
-    'gomod',
-    'gosum',
-    'gowork',
-    'go',
     'bash',
     'comment',
     'editorconfig',
+    'go',
+    'gomod',
+    'gosum',
+    'gowork',
     'html',
     'latex',
     'lua',
@@ -256,6 +256,7 @@ require('conform').setup({
         markdown = { 'prettierd' },
         make = { 'bake' },
         go = { 'gofmt' },
+        toml = { 'taplo' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}
