@@ -145,4 +145,5 @@ vim.lsp.enable({
     'taplo',
     'harper_ls',
     'gopls',
+    'hyprls',
 })

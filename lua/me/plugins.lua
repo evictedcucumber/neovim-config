@@ -136,6 +136,7 @@ local ts_languages = {
     'toml',
     'vim',
     'yaml',
+    'hyprlang',
 }
 require('nvim-treesitter').install(ts_languages)
 require('treesitter-context').setup({ max_lines = 3 })
