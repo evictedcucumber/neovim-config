@@ -11,39 +11,41 @@ vim.api.nvim_create_autocmd('PackChanged', {
         end
 
         if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
-            vim.system(
-                { 'nix', 'run', '--accept-flake-config', '.#build-plugin' },
-                { cwd = path }
-            ):wait()
+            -- vim.system(
+            --     { 'nix', 'run', '--accept-flake-config', '.#build-plugin' },
+            --     { cwd = path }
+            -- ):wait()
+            require('blink.cmp').build():wait(60000)
         end
     end,
 })
 
 vim.pack.add({
-    'https://github.com/nvim-lua/plenary.nvim',
-    'https://github.com/nvim-mini/mini.icons',
-    'https://github.com/nvim-tree/nvim-web-devicons',
+    { src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim' },
+    { src = 'https://github.com/Saghen/blink.cmp' },
+    { src = 'https://github.com/Saghen/blink.lib' },
     { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
-    'https://github.com/folke/lazydev.nvim',
-    'https://github.com/folke/snacks.nvim',
+    { src = 'https://github.com/folke/lazydev.nvim' },
+    { src = 'https://github.com/folke/snacks.nvim' },
+    { src = 'https://github.com/folke/which-key.nvim' },
+    { src = 'https://github.com/j-hui/fidget.nvim' },
+    { src = 'https://github.com/mikavilpas/yazi.nvim' },
+    { src = 'https://github.com/mrcjkb/rustaceanvim' },
+    { src = 'https://github.com/nvim-lua/plenary.nvim' },
+    { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+    { src = 'https://github.com/nvim-mini/mini.ai' },
+    { src = 'https://github.com/nvim-mini/mini.align' },
+    { src = 'https://github.com/nvim-mini/mini.icons' },
+    { src = 'https://github.com/nvim-mini/mini.move' },
+    { src = 'https://github.com/nvim-mini/mini.surround' },
+    { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
     {
         src = 'https://github.com/nvim-treesitter/nvim-treesitter',
         version = 'main',
     },
-    'https://github.com/nvim-treesitter/nvim-treesitter-context',
-    'https://github.com/folke/which-key.nvim',
-    'https://github.com/Saghen/blink.cmp',
-    'https://github.com/j-hui/fidget.nvim',
-    'https://github.com/stevearc/conform.nvim',
-    'https://github.com/nvim-lualine/lualine.nvim',
-    'https://github.com/mikavilpas/yazi.nvim',
-    'https://github.com/nvim-mini/mini.move',
-    'https://github.com/nvim-mini/mini.surround',
-    'https://github.com/nvim-mini/mini.align',
-    'https://github.com/nvim-mini/mini.ai',
-    'https://github.com/MeanderingProgrammer/render-markdown.nvim',
-    'https://github.com/obsidian-nvim/obsidian.nvim',
-    'https://github.com/mrcjkb/rustaceanvim',
+    { src = 'https://github.com/nvim-treesitter/nvim-treesitter-context' },
+    { src = 'https://github.com/obsidian-nvim/obsidian.nvim' },
+    { src = 'https://github.com/stevearc/conform.nvim' },
 }, { confirm = false })
 
 vim.api.nvim_create_user_command('PackUpdate', 'lua vim.pack.update()', {})
@@ -276,7 +278,7 @@ end, { desc = '[F]or[m]at Buffer' })
 -- LUALINE
 require('lualine').setup({
     options = {
-        theme = 'catppuccin',
+        theme = 'catppuccin-nvim',
         -- disabled_filetypes = {
         --     statusline = {
         --         'dapui_scopes',
