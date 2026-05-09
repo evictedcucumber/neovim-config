@@ -29,6 +29,7 @@ vim.pack.add({
     { src = 'https://github.com/folke/snacks.nvim' },
     { src = 'https://github.com/folke/which-key.nvim' },
     { src = 'https://github.com/j-hui/fidget.nvim' },
+    { src = 'https://github.com/ledger/vim-ledger' },
     { src = 'https://github.com/mikavilpas/yazi.nvim' },
     { src = 'https://github.com/mrcjkb/rustaceanvim' },
     { src = 'https://github.com/nvim-lua/plenary.nvim' },
@@ -410,3 +411,7 @@ vim.g.rustaceanvim = {
     },
 }
 -- /RUST
+
+-- HLEDGER
+vim.g.ledger_bin = 'hledger'
+-- /HLEDGER
