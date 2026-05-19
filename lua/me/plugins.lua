@@ -49,8 +49,6 @@ vim.pack.add({
     { src = 'https://github.com/stevearc/conform.nvim' },
 }, { confirm = false })
 
-vim.api.nvim_create_user_command('PackUpdate', 'lua vim.pack.update()', {})
-
 -- ICONS
 require('mini.icons').setup({})
 require('nvim-web-devicons').setup({})
