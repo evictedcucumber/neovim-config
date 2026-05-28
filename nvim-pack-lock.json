@@ -81,6 +81,10 @@
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
     },
+    "treesitter-context": {
+      "rev": "b311b30818951d01f7b4bf650521b868b3fece16",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
+    },
     "vim-ledger": {
       "rev": "4f2d93dd914f625e2d3db47d97bd9f428fedd68f",
       "src": "https://github.com/ledger/vim-ledger"

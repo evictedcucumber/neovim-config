@@ -1,3 +1,5 @@
+_G.pack_wrapper = require('pack')
+
 require('me.globals')
 require('me.options')
 require('me.keymaps')
