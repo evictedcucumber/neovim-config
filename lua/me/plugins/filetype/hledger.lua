@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd('FileType', {
         _G.keymap(
             'n',
             '<leader>la',
-            '<cmd>call ledger#align_commodity_buffer',
+            '<cmd>call ledger#align_commodity_buffer()<CR>',
             { desc = 'Align Ledger Commodities' }
         )
     end,
