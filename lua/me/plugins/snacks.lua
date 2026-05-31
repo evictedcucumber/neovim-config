@@ -15,7 +15,7 @@ local exclude = {
 require('snacks').setup({
     picker = {
         layout = { preset = 'ivy' },
-        matcher = { cwd_bonus = true, freceny = true },
+        matcher = { cwd_bonus = true, frecency = true },
         sources = {
             grep = { hidden = true, exclude = exclude },
             files = { hidden = true, exclude = exclude },
@@ -24,6 +24,7 @@ require('snacks').setup({
     indent = { animate = { enabled = false } },
     quickfile = { enabled = true },
     input = { enabled = true },
+    image = { enabled = true },
 })
 _G.keymap('n', '<leader>sf', function()
     require('snacks').picker.files()

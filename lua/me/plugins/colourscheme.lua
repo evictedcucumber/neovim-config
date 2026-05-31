@@ -1,22 +1,29 @@
-if not _G.pack_wrapper.add('catppuccin', 'nvim', { name = 'catppuccin' }) then
+if not _G.pack_wrapper.add('rose-pine', 'neovim', { name = 'rose-pine' }) then
     return
 end
 
-require('catppuccin').setup({
-    flavour = 'mocha',
-    background = { dark = 'mocha' },
-    show_end_of_buffer = true,
-    default_integrations = true,
-    float = { solid = false, transparent = true },
-    term_colors = true,
-    -- integrations = {
-    --     snacks = { enabled = true, indent_scope_color = 'lavender' },
-    --     treesitter = true,
-    --     treesitter_context = true,
-    --     which_key = true,
-    --     blink_cmp = { style = 'bordered' },
-    --     native_lsp = { enabled = true, inlay_hints = { background = true } },
-    --     render_markdown = true,
-    -- },
+require('rose-pine').setup({
+    variant = 'main',
+    dark_variant = 'main',
+    enable = {
+        terminal = true,
+        legacy_highlights = true,
+        migrations = true,
+    },
+    styles = {
+        bold = true,
+        italic = true,
+        transparency = false,
+    },
+    highlight_groups = {
+        SnacksPickerBorder = { fg = 'muted' },
+        SnacksPickerTitle = { fg = 'foam', bold = true },
+        SnacksPickerMatch = { fg = 'rose', bold = true },
+        SnacksPickerPrompt = { fg = 'iris' },
+        SnacksPickerDir = { fg = 'muted' },
+        SnacksPickerListCursorLine = { bg = 'highlight_low' },
+        SnacksIndent = { fg = 'muted', blend = 30 },
+        SnacksIndentScope = { fg = 'subtle' },
+    },
 })
-vim.cmd('colorscheme catppuccin')
+vim.cmd('colorscheme rose-pine')

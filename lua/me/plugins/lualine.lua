@@ -3,7 +3,7 @@ if not _G.pack_wrapper.add('nvim-lualine', 'lualine.nvim') then
 end
 
 require('lualine').setup({
-    options = { theme = 'catppuccin-nvim' },
+    options = { theme = 'rose-pine' },
     sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch' },
