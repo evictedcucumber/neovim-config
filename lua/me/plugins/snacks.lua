@@ -1,4 +1,4 @@
-if not _G.pack_wrapper.add('folder', 'snacks.nvim') then
+if not _G.pack_wrapper.add('folke', 'snacks.nvim') then
     return
 end
 
