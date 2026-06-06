@@ -11,6 +11,7 @@ require('conform').setup({
         make = { 'bake' },
         go = { 'gofmt' },
         toml = { 'taplo' },
+        yaml = { 'yamlfix' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}
