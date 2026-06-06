@@ -29,3 +29,5 @@ if vault_stat and vault_stat.type == 'directory' then
         ui = { enable = false },
     })
 end
+
+vim.filetype.add({ extension = { base = 'yaml', canvas = 'json' } })

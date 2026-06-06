@@ -12,6 +12,7 @@ require('conform').setup({
         go = { 'gofmt' },
         toml = { 'taplo' },
         yaml = { 'yamlfix' },
+        json = { 'prettierd' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}
