@@ -13,6 +13,7 @@ require('conform').setup({
         toml = { 'taplo' },
         yaml = { 'yamlfix' },
         json = { 'prettierd' },
+        ['yaml.ansible'] = { 'ansible-lint' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}
