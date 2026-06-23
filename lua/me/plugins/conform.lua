@@ -12,8 +12,8 @@ require('conform').setup({
         go = { 'gofmt' },
         toml = { 'taplo' },
         yaml = { 'yamlfix' },
+        ['yaml.ansible'] = { 'yamlfix' },
         json = { 'prettierd' },
-        ['yaml.ansible'] = { 'ansible-lint' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}

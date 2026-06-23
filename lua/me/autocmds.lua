@@ -45,11 +45,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- ensure ansible yaml files are detected as yaml.ansible
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     pattern = {
-        '**/playbooks/**/*.yml',
-        '**/inventory/**/*.yml',
-        '**/group_vars/**/*.yml',
-        '**/host_vars/**/*.yml',
-        '**/roles/**/*.yml',
+        '*/playbooks/*.yml',
+        '*/inventory/*.yml',
+        '*/group_vars/*.yml',
+        '*/host_vars/*.yml',
+        '*/roles/*.yml',
     },
     callback = function()
         vim.bo.filetype = 'yaml.ansible'
