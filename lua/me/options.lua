@@ -25,6 +25,8 @@ vim.o.maxmempattern = 20000 -- max memory for pattern matching
 vim.o.synmaxcol = 300 -- max syntax highlighting column limit
 vim.o.list = true -- show tabs, trailing and newline characters
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- the characters to represent the tab, space, and newline
+vim.o.fileformat = 'unix'
+vim.o.fileformats = 'unix,dos'
 
 -- file handling
 vim.o.backup = false -- disable backup files
