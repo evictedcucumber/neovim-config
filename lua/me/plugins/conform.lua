@@ -14,6 +14,7 @@ require('conform').setup({
         yaml = { 'yamlfix' },
         ['yaml.ansible'] = { 'yamlfix' },
         json = { 'prettierd' },
+        rust = { 'rustfmt' },
         ['_'] = { 'trim_whitespace', 'fix_line_endings' },
     },
     format_on_save = function(buffer)
