@@ -146,6 +146,7 @@ vim.lsp.enable({
     'lua_ls',
     'marksman',
     'nixd',
+    'powershell_es',
     'taplo',
     'yamlls',
 })
