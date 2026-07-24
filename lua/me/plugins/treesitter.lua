@@ -35,6 +35,7 @@ local ts_languages = {
     'make',
     'markdown',
     'nix',
+    'powershell',
     'python',
     'regex',
     'rust',

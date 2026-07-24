@@ -15,7 +15,7 @@ require('conform').setup({
         json = { 'prettierd' },
         rust = { 'rustfmt' },
         nix = { lsp_format = 'first' },
-        powershell = { lsp_format = 'first' },
+        ps1 = { lsp_format = 'first' },
         ['_'] = { 'trim_whitespace' },
     },
     format_on_save = function(buffer)

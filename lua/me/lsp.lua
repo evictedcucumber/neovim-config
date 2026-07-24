@@ -137,6 +137,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
+vim.lsp.config('powershell_es', {
+    bundle_path = (function()
+        local exe = vim.fn.exepath('powershell-editor-services')
+        if exe == '' then
+            vim.notify(
+                'powershell_es: `powershell-editor-services` not found on $PATH',
+                vim.log.levels.WARN
+            )
+            return nil
+        end
+        -- exe = $out/bin/powershell-editor-services
+        local out_path = vim.fn.fnamemodify(exe, ':h:h') -- -> $out
+        return out_path .. '/lib/powershell-editor-services'
+    end)(),
+})
+
 vim.lsp.enable({
     'ansiblels',
     'autotools_ls',
