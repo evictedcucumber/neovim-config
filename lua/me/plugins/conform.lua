@@ -9,13 +9,12 @@ require('conform').setup({
         lua = { 'stylua' },
         markdown = { 'prettierd' },
         make = { 'bake' },
-        go = { 'gofmt' },
         toml = { 'taplo' },
         yaml = { 'yamlfix' },
         ['yaml.ansible'] = { 'yamlfix' },
         json = { 'prettierd' },
         rust = { 'rustfmt' },
-        ['_'] = { 'trim_whitespace', 'fix_line_endings' },
+        ['_'] = { 'trim_whitespace' },
     },
     format_on_save = function(buffer)
         local disabled_filetypes = {}

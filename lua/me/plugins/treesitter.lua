@@ -20,6 +20,7 @@ end
 local ts_languages = {
     'bash',
     'comment',
+    'css',
     'editorconfig',
     'go',
     'gomod',
@@ -27,6 +28,7 @@ local ts_languages = {
     'gowork',
     'html',
     'hyprlang',
+    'javascript',
     'json',
     'latex',
     'lua',
@@ -36,8 +38,13 @@ local ts_languages = {
     'python',
     'regex',
     'rust',
+    'scss',
+    'svelte',
     'toml',
+    'tsx',
+    'typst',
     'vim',
+    'vue',
     'yaml',
 }
 require('nvim-treesitter').install(ts_languages)
