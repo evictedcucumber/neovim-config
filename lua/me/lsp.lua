@@ -157,7 +157,6 @@ vim.lsp.enable({
     'ansiblels',
     'autotools_ls',
     'gopls',
-    'harper_ls',
     'hyprls',
     'lua_ls',
     'marksman',
