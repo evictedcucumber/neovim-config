@@ -7,8 +7,6 @@ local exclude = {
     '**/build/',
     '**/.cache/',
     '**/target/',
-    '**/docs/',
-    '**/doc/api/',
     '**/.trash/',
     '**/.direnv/',
 }
