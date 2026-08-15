@@ -156,12 +156,12 @@ vim.lsp.config('powershell_es', {
 vim.lsp.enable({
     'ansiblels',
     'autotools_ls',
-    'gopls',
     'hyprls',
     'lua_ls',
     'marksman',
     'nixd',
     'powershell_es',
+    'python',
     'taplo',
     'yamlls',
 })

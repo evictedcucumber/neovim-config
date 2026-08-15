@@ -16,6 +16,7 @@ require('conform').setup({
         rust = { 'rustfmt' },
         nix = { lsp_format = 'first' },
         ps1 = { lsp_format = 'first' },
+        python = { 'black' },
         ['_'] = { 'trim_whitespace' },
     },
     format_on_save = function(buffer)
