@@ -1,4 +1,6 @@
-if not _G.pack_wrapper.add('rose-pine', 'neovim', { name = 'rose-pine' }) then
+local pack = require('pack')
+
+if not pack.add('rose-pine', 'neovim', { name = 'rose-pine' }) then
     return
 end
 

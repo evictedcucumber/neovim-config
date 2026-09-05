@@ -1,14 +1,10 @@
-if
-    not _G.pack_wrapper.add(
-        'nvim-treesitter',
-        'nvim-treesitter',
-        { version = 'main' }
-    )
-then
+local pack = require('pack')
+
+if not pack.add('nvim-treesitter', 'nvim-treesitter', { version = 'main' }) then
     return
 end
 if
-    not _G.pack_wrapper.add(
+    not pack.add(
         'nvim-treesitter',
         'nvim-treesitter-context',
         { name = 'treesitter-context' }
@@ -50,7 +46,8 @@ local ts_languages = {
 }
 require('nvim-treesitter').install(ts_languages)
 require('treesitter-context').setup({ max_lines = 3 })
-local ts_filetypes = vim.list_extend(vim.deepcopy(ts_languages), { 'yaml.ansible' })
+local ts_filetypes =
+    vim.list_extend(vim.deepcopy(ts_languages), { 'yaml.ansible' })
 
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),

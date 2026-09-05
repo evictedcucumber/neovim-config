@@ -1,4 +1,6 @@
-if not _G.pack_wrapper.add('folke', 'which-key.nvim') then
+local pack = require('pack')
+
+if not pack.add('folke', 'which-key.nvim') then
     return
 end
 

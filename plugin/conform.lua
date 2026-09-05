@@ -1,4 +1,6 @@
-if not _G.pack_wrapper.add('stevearc', 'conform.nvim') then
+local pack = require('pack')
+
+if not pack.add('stevearc', 'conform.nvim') then
     return
 end
 
@@ -28,6 +30,6 @@ require('conform').setup({
         return conform_format_opts
     end,
 })
-_G.keymap('n', '<leader>fm', function()
+vim.keymap.set('n', '<leader>fm', function()
     require('conform').format(conform_format_opts)
 end, { desc = '[F]or[m]at Buffer' })

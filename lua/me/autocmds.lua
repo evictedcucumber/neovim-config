@@ -56,20 +56,26 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     end,
 })
 
--- -- plugin install/update auto executes
--- vim.api.nvim_create_autocmd('PackChanged', {
---     group = vim.api.nvim_create_augroup('PackChangedHook', { clear = true }),
---     callback = function(ev)
---         local name, kind = ev.data.spec.name, ev.data.kind
---
---         if name == 'nvim-treesitter' and kind == 'update' then
---             require('nvim-treesitter').update():wait()
---             return
---         end
---
---         if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
---             ---@diagnostic disable-next-line:undefined-field
---             require('blink.cmp').build():wait(60000)
---         end
---     end,
--- })
+-- plugin install/update auto executes
+vim.api.nvim_create_autocmd('PackChanged', {
+    group = vim.api.nvim_create_augroup('PackChangedHook', { clear = true }),
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+
+        if name == 'nvim-treesitter' and kind == 'update' then
+            require('nvim-treesitter').update():wait()
+            return
+        end
+
+        if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
+            -- rebuild the Rust fuzzy matcher; blink.cmp only ships prebuilt
+            -- binaries for tagged releases, and this config tracks `main`.
+            -- Deferred: PackChanged fires mid-install (before the plugin is
+            -- necessarily loaded onto the runtimepath), so running this
+            -- synchronously here can race with Nvim's own plugin loading.
+            vim.schedule(function()
+                require('blink.cmp.fuzzy.build').build()
+            end)
+        end
+    end,
+})

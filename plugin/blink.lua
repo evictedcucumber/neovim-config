@@ -1,7 +1,9 @@
-if not _G.pack_wrapper.add('Saghen', 'blink.lib') then
+local pack = require('pack')
+
+if not pack.add('Saghen', 'blink.lib') then
     return
 end
-if not _G.pack_wrapper.add('Saghen', 'blink.cmp') then
+if not pack.add('Saghen', 'blink.cmp') then
     return
 end
 

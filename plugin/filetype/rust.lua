@@ -1,6 +1,9 @@
-if
-    not _G.pack_wrapper.add('mrcjkb', 'rustaceanvim', { requireable = false })
-then
+local pack = require('pack')
+
+if not pack.add('mrcjkb', 'rustaceanvim', { requireable = false }) then
+    return
+end
+if not pack.add('Saghen', 'blink.cmp') then
     return
 end
 
@@ -26,33 +29,33 @@ vim.g.rustaceanvim = {
                 }
             end
 
-            keymap(
+            vim.keymap.set(
                 'n',
                 '<leader>d',
                 '<cmd>RustLsp renderDiagnostic current<CR>',
                 opts('Show Rust [D]iagnostic in Float')
             )
-            keymap(
+            vim.keymap.set(
                 'n',
                 '[d',
                 '<cmd>RustLsp renderDiagnostic cycle_prev<CR>',
                 opts('Goto Previous [D]iagnostic')
             )
-            keymap(
+            vim.keymap.set(
                 'n',
                 ']d',
                 '<cmd>RustLsp renderDiagnostic cycle<CR>',
                 opts('Goto Next [D]iagnostic')
             )
 
-            keymap(
+            vim.keymap.set(
                 'n',
                 'K',
                 '<cmd>RustLsp hover actions<CR>',
                 opts('Show Rust Hover Documentation')
             )
 
-            keymap(
+            vim.keymap.set(
                 'n',
                 '<leader>ca',
                 '<cmd>RustLsp codeAction<CR>',

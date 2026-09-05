@@ -2,8 +2,6 @@ vim.g.pack_confirm = false
 
 local M = {}
 
-local log = require('pack.plenary_log')
-
 ---@class AddOpts
 ---@field version? string|vim.VersionRange
 ---@field name? string
@@ -14,16 +12,8 @@ local log = require('pack.plenary_log')
 ---@param opts? AddOpts
 ---@return boolean
 M.add = function(author, plugin, opts)
-    log.debug(
-        'function "add" called: ',
-        author,
-        plugin,
-        vim.inspect(opts, { indent = '', newline = ' ' })
-    )
-
     ---@type string
     local url = 'https://github.com/' .. author .. '/' .. plugin
-    log.debug('plugin url: ', url)
 
     ---@type AddOpts
     local opts_safe = opts or {}
@@ -43,27 +33,28 @@ M.add = function(author, plugin, opts)
 
     local added, add_err = pcall(vim.pack.add, { spec }, { confirm = false })
     if not added then
-        log.error('failed to add plugin with error: ', add_err)
+        vim.notify(
+            ('pack.add: failed to add "%s": %s'):format(plugin, add_err),
+            vim.log.levels.ERROR
+        )
         return false
     end
 
     if is_requireable then
         ---@type string
         local to_require = opts_safe.name or plugin:gsub('%.nvim$', '')
-        log.debug('plugin require_name: ', to_require)
 
-        local required, _ = pcall(require, to_require)
+        local required = pcall(require, to_require)
         if not required then
-            log.error(
-                'could not require plugin: ',
-                vim.inspect(
-                    { name = plugin, require_name = to_require },
-                    { indent = '', newline = ' ' }
-                )
+            vim.notify(
+                ('pack.add: could not require "%s" (require name "%s")'):format(
+                    plugin,
+                    to_require
+                ),
+                vim.log.levels.ERROR
             )
             return false
         end
-        log.debug('can require plugin: ', plugin)
     end
 
     return true
