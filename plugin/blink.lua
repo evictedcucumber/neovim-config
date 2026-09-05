@@ -3,7 +3,11 @@ local pack = require('pack')
 if not pack.add('Saghen', 'blink.lib') then
     return
 end
-if not pack.add('Saghen', 'blink.cmp') then
+-- pin to a tagged release so blink.cmp downloads a prebuilt fuzzy-matcher
+-- binary instead of needing a local `cargo build` (which `main` always does)
+if
+    not pack.add('Saghen', 'blink.cmp', { version = vim.version.range('1.*') })
+then
     return
 end
 
