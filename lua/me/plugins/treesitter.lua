@@ -50,9 +50,11 @@ local ts_languages = {
 }
 require('nvim-treesitter').install(ts_languages)
 require('treesitter-context').setup({ max_lines = 3 })
+local ts_filetypes = vim.list_extend(vim.deepcopy(ts_languages), { 'yaml.ansible' })
+
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
-    pattern = ts_languages,
+    pattern = ts_filetypes,
     callback = function()
         vim.treesitter.start()
         vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
