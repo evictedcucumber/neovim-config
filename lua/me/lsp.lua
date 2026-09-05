@@ -161,7 +161,7 @@ vim.lsp.enable({
     'marksman',
     'nixd',
     'powershell_es',
-    'python',
+    'pyright',
     'taplo',
     'yamlls',
 })
