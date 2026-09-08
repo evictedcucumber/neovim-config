@@ -72,12 +72,7 @@ return {
         end
         return vim.lsp.rpc.start({ cmd, '--stdio' }, dispatchers)
     end,
-    filetypes = {
-        'yaml',
-        'yaml.docker-compose',
-        'yaml.gitlab',
-        'yaml.helm-values',
-    },
+    filetypes = { 'yaml' },
     root_markers = { '.git' },
     ---@type lspconfig.settings.yamlls
     settings = {
