@@ -13,7 +13,7 @@ then
     return
 end
 
-local ts_languages = {
+require('nvim-treesitter').install({
     'bash',
     'comment',
     'css',
@@ -39,22 +39,25 @@ local ts_languages = {
     'svelte',
     'toml',
     'tsx',
+    'typescript',
     'typst',
     'vim',
     'vue',
     'yaml',
-}
-require('nvim-treesitter').install(ts_languages)
+})
 require('treesitter-context').setup({ max_lines = 3 })
-local ts_filetypes =
-    vim.list_extend(vim.deepcopy(ts_languages), { 'yaml.ansible' })
 
+-- start treesitter for any filetype with an installed parser; parser names
+-- don't always match filetypes (e.g. tsx -> typescriptreact, powershell -> ps1)
+-- so let vim.treesitter resolve the language rather than listing filetypes
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
-    pattern = ts_filetypes,
-    callback = function()
-        vim.treesitter.start()
-        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        vim.bo.indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
+    callback = function(ev)
+        if not pcall(vim.treesitter.start, ev.buf) then
+            return
+        end
+        vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        vim.bo[ev.buf].indentexpr =
+            'v:lua.require"nvim-treesitter".indentexpr()'
     end,
 })

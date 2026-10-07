@@ -1,5 +1,3 @@
-vim.g.pack_confirm = false
-
 local M = {}
 
 ---@class AddOpts

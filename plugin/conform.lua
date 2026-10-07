@@ -21,14 +21,7 @@ require('conform').setup({
         python = { 'black' },
         ['_'] = { 'trim_whitespace' },
     },
-    format_on_save = function(buffer)
-        local disabled_filetypes = {}
-        if disabled_filetypes[vim.bo[buffer].filetype] then
-            return nil
-        end
-
-        return conform_format_opts
-    end,
+    format_on_save = conform_format_opts,
 })
 vim.keymap.set('n', '<leader>fm', function()
     require('conform').format(conform_format_opts)

@@ -5,7 +5,7 @@ vim.keymap.del('n', 'grn')
 
 vim.diagnostic.config({
     severity_sort = true,
-    float = { border = 'rounded', source = 'if_many' },
+    float = { source = 'if_many' },
     underline = { severity = vim.diagnostic.severity.ERROR },
     signs = {
         text = {
@@ -18,7 +18,14 @@ vim.diagnostic.config({
     virtual_text = { source = 'if_many', spacing = 2 },
 })
 
+-- created once: recreating these with `clear = true` on every attach would
+-- wipe the buffer-local autocmds of previously attached buffers
+local lsp_augroup = vim.api.nvim_create_augroup('me_lsp', { clear = true })
+local highlight_augroup =
+    vim.api.nvim_create_augroup('me_lsp_highlight', { clear = true })
+
 vim.api.nvim_create_autocmd('LspAttach', {
+    group = lsp_augroup,
     callback = function(ev)
         local bufnr = ev.buf
         local client_id = ev.data.client_id or 0
@@ -26,9 +33,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         if not client then
             return
         end
-
-        local lsp_augroup =
-            vim.api.nvim_create_augroup('lsp_augroup', { clear = true })
 
         local function opts(desc)
             ---@type vim.keymap.set.Opts
@@ -68,18 +72,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.lsp.buf.code_action,
             opts('Show LSP [C]ode [A]ctions')
         )
-        vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover({
-                focusable = true,
-                close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
-                border = 'rounded',
-            })
-        end, opts('Show LSP Hover Documentation'))
         vim.keymap.set('n', '<leader>d', function()
             vim.diagnostic.open_float(nil, {
                 focusable = false,
                 scope = 'cursor',
-                border = 'rounded',
                 close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
             })
         end, opts('Show [D]iagnostic in Float'))
@@ -87,6 +83,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.diagnostic.setloclist()
         end, opts('Show all [D]iagnostics'))
 
+        -- hide diagnostics while typing; clear first so a second client
+        -- attaching to the same buffer doesn't duplicate these
+        vim.api.nvim_clear_autocmds({
+            group = lsp_augroup,
+            buffer = bufnr,
+            event = { 'InsertEnter', 'InsertLeave' },
+        })
         vim.api.nvim_create_autocmd('InsertEnter', {
             buffer = bufnr,
             group = lsp_augroup,
@@ -103,37 +106,32 @@ vim.api.nvim_create_autocmd('LspAttach', {
         })
 
         if client:supports_method('textDocument/documentHighlight', bufnr) then
-            local highlight_group = vim.api.nvim_create_augroup(
-                'lsp_highlight_augroup',
-                { clear = false }
-            )
-
+            vim.api.nvim_clear_autocmds({
+                group = highlight_augroup,
+                buffer = bufnr,
+            })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                group = highlight_group,
+                group = highlight_augroup,
                 buffer = bufnr,
                 callback = vim.lsp.buf.document_highlight,
             })
-
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-                group = highlight_group,
+                group = highlight_augroup,
                 buffer = bufnr,
                 callback = vim.lsp.buf.clear_references,
             })
-
-            vim.api.nvim_create_autocmd('LspDetach', {
-                group = vim.api.nvim_create_augroup(
-                    'lsp_detach_augroup',
-                    { clear = true }
-                ),
-                callback = function(event)
-                    vim.lsp.buf.clear_references()
-                    vim.api.nvim_clear_autocmds({
-                        group = highlight_group,
-                        buffer = event.buf,
-                    })
-                end,
-            })
         end
+    end,
+})
+
+vim.api.nvim_create_autocmd('LspDetach', {
+    group = lsp_augroup,
+    callback = function(ev)
+        vim.lsp.util.buf_clear_references(ev.buf)
+        vim.api.nvim_clear_autocmds({
+            group = highlight_augroup,
+            buffer = ev.buf,
+        })
     end,
 })
 

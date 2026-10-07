@@ -1,9 +1,9 @@
-vim.wo.wrap = true
-vim.wo.linebreak = true
-vim.wo.colorcolumn = ''
-vim.wo.number = false
-vim.wo.relativenumber = false
-vim.wo.signcolumn = 'no'
+vim.wo[0][0].wrap = true
+vim.wo[0][0].linebreak = true
+vim.wo[0][0].colorcolumn = ''
+vim.wo[0][0].number = false
+vim.wo[0][0].relativenumber = false
+vim.wo[0][0].signcolumn = 'no'
 
 vim.bo.tabstop = 2
 vim.bo.shiftwidth = 2

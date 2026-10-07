@@ -35,67 +35,18 @@ local function init()
     return true
 end
 
+-- mode -> { label, dracula palette key }
 local mode_map = {
-    n = {
-        name = 'NORMAL',
-        color = function()
-            return palette.pink
-        end,
-    },
-    i = {
-        name = 'INSERT',
-        color = function()
-            return palette.green
-        end,
-    },
-    v = {
-        name = 'VISUAL',
-        color = function()
-            return palette.purple
-        end,
-    },
-    V = {
-        name = 'V-LINE',
-        color = function()
-            return palette.purple
-        end,
-    },
-    ['\22'] = {
-        name = 'V-BLOCK',
-        color = function()
-            return palette.purple
-        end,
-    },
-    s = {
-        name = 'SELECT',
-        color = function()
-            return palette.purple
-        end,
-    },
-    S = {
-        name = 'S-LINE',
-        color = function()
-            return palette.purple
-        end,
-    },
-    R = {
-        name = 'REPLACE',
-        color = function()
-            return palette.orange
-        end,
-    },
-    c = {
-        name = 'COMMAND',
-        color = function()
-            return palette.red
-        end,
-    },
-    t = {
-        name = 'TERMINAL',
-        color = function()
-            return palette.red
-        end,
-    },
+    n = { 'NORMAL', 'pink' },
+    i = { 'INSERT', 'green' },
+    v = { 'VISUAL', 'purple' },
+    V = { 'V-LINE', 'purple' },
+    ['\22'] = { 'V-BLOCK', 'purple' },
+    s = { 'SELECT', 'purple' },
+    S = { 'S-LINE', 'purple' },
+    R = { 'REPLACE', 'orange' },
+    c = { 'COMMAND', 'red' },
+    t = { 'TERMINAL', 'red' },
 }
 
 local function mode_info()
@@ -104,7 +55,7 @@ local function mode_info()
     if not entry then
         return { name = m:upper(), color = palette.pink }
     end
-    return { name = entry.name, color = entry.color() }
+    return { name = entry[1], color = palette[entry[2]] }
 end
 
 local function update_mode_hl(key, color)
@@ -123,6 +74,14 @@ local function update_mode_hl(key, color)
         { bg = palette.selection, fg = color }
     )
 end
+
+-- `:colorscheme` clears custom highlight groups; re-create them on next render
+vim.api.nvim_create_autocmd('ColorScheme', {
+    group = vim.api.nvim_create_augroup('MeStatuslineColors', { clear = true }),
+    callback = function()
+        palette, last_mode_key = nil, nil
+    end,
+})
 
 -- git branch, cached per directory (avoids reading .git/HEAD on every redraw)
 local branch_cache = {}
@@ -190,20 +149,17 @@ local diagnostic_severities = {
     vim.diagnostic.severity.INFO,
     vim.diagnostic.severity.HINT,
 }
-local diagnostic_icons = {
-    [vim.diagnostic.severity.ERROR] = '󰅚 ',
-    [vim.diagnostic.severity.WARN] = '󰀪 ',
-    [vim.diagnostic.severity.INFO] = '󰋽 ',
-    [vim.diagnostic.severity.HINT] = '󰌶 ',
-}
 
 local function diagnostics(bufnr)
     local counts = vim.diagnostic.count(bufnr)
+    -- reuse the sign icons configured in me.lsp
+    local signs = vim.diagnostic.config().signs
+    local icons = type(signs) == 'table' and signs.text or {}
     local parts = {}
     for _, severity in ipairs(diagnostic_severities) do
         local count = counts[severity]
         if count and count > 0 then
-            table.insert(parts, diagnostic_icons[severity] .. count)
+            table.insert(parts, (icons[severity] or '') .. count)
         end
     end
     return #parts > 0 and (' ' .. table.concat(parts, ' ') .. ' ') or ''

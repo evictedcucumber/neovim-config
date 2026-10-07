@@ -1,29 +1,15 @@
 -- restore last cursor position when reopening a file
-local last_cursor_group =
-    vim.api.nvim_create_augroup('LastCursorGroup', { clear = true })
 vim.api.nvim_create_autocmd('BufReadPost', {
-    group = last_cursor_group,
-    callback = function()
-        local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local lcount = vim.api.nvim_buf_line_count(0)
+    group = vim.api.nvim_create_augroup('LastCursorGroup', { clear = true }),
+    callback = function(ev)
+        local ft = vim.bo[ev.buf].filetype
+        if ft == 'gitcommit' or ft == 'gitrebase' then
+            return
+        end
+        local mark = vim.api.nvim_buf_get_mark(ev.buf, '"')
+        local lcount = vim.api.nvim_buf_line_count(ev.buf)
         if mark[1] > 0 and mark[1] <= lcount then
             pcall(vim.api.nvim_win_set_cursor, 0, mark)
-        end
-    end,
-})
-
--- remember cursor positon when switching buffers
-vim.api.nvim_create_autocmd('BufLeave', {
-    group = last_cursor_group,
-    callback = function(ev)
-        vim.b[ev.buf].last_cursor = vim.api.nvim_win_get_cursor(0)
-    end,
-})
-vim.api.nvim_create_autocmd('BufEnter', {
-    group = last_cursor_group,
-    callback = function(ev)
-        if vim.b[ev.buf].last_cursor then
-            pcall(vim.api.nvim_win_set_cursor, 0, vim.b[ev.buf].last_cursor)
         end
     end,
 })
@@ -39,20 +25,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
             higroup = 'IncSearch',
             timeout = 200,
         })
-    end,
-})
-
--- ensure ansible yaml files are detected as yaml.ansible
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-    pattern = {
-        '*/playbooks/*.yml',
-        '*/inventory/*.yml',
-        '*/group_vars/*.yml',
-        '*/host_vars/*.yml',
-        '*/roles/*.yml',
-    },
-    callback = function()
-        vim.bo.filetype = 'yaml.ansible'
     end,
 })
 

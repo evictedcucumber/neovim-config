@@ -3,9 +3,8 @@ local pack = require('pack')
 if not pack.add('mrcjkb', 'rustaceanvim', { requireable = false }) then
     return
 end
-if not pack.add('Saghen', 'blink.cmp') then
-    return
-end
+-- blink.cmp is added (with its version pin) by plugin/blink.lua
+local has_blink, blink = pcall(require, 'blink.cmp')
 
 -- RUST
 vim.g.rustaceanvim = {
@@ -62,14 +61,14 @@ vim.g.rustaceanvim = {
                 opts('Show Rust [C]ode [A]ctions')
             )
         end,
-        capabilities = require('blink.cmp').get_lsp_capabilities({
+        capabilities = has_blink and blink.get_lsp_capabilities({
             textDocument = {
                 foldingRange = {
                     dynamicRegistration = false,
                     lineFoldingOnly = true,
                 },
             },
-        }, true),
+        }, true) or nil,
         standalone = false,
     },
 }
