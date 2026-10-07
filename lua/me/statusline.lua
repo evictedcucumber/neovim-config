@@ -3,7 +3,7 @@ local M = {}
 local palette, bg_base
 local last_mode_key
 
--- rose-pine may not be on the runtimepath yet (e.g. `plugin/*.lua` auto-sourcing
+-- dracula may not be on the runtimepath yet (e.g. `plugin/*.lua` auto-sourcing
 -- can trigger a redraw, via vim.pack's own install notifications, before
 -- `plugin/colourscheme.lua` has run) so this must tolerate being called early
 -- and retry on a later render() instead of throwing, which would otherwise
@@ -12,21 +12,25 @@ local function init()
     if palette then
         return true
     end
-    local ok, p = pcall(require, 'rose-pine.palette')
-    if not ok then
+    -- set by dracula/vim's autoload script once the colorscheme has loaded;
+    -- entries are `{ hex, cterm }` pairs, so keep just the hex
+    local p = vim.g['dracula#palette']
+    if not p then
         return false
     end
-    palette = p
+    palette = {}
+    for k, v in pairs(p) do
+        palette[k] = type(v) == 'table' and v[1] or v
+    end
 
-    local ok_cfg, cfg = pcall(require, 'rose-pine.config')
-    local transparency = ok_cfg and cfg.options.styles.transparency
-    bg_base = transparency and 'NONE' or palette.surface
+    local transparency = vim.g.dracula_colorterm == 0
+    bg_base = transparency and 'NONE' or palette.bgdark
 
-    vim.api.nvim_set_hl(0, 'MeStatusC', { bg = bg_base, fg = palette.text })
+    vim.api.nvim_set_hl(0, 'MeStatusC', { bg = bg_base, fg = palette.fg })
     vim.api.nvim_set_hl(
         0,
         'MeStatusInactive',
-        { bg = bg_base, fg = palette.muted }
+        { bg = bg_base, fg = palette.comment }
     )
     return true
 end
@@ -35,61 +39,61 @@ local mode_map = {
     n = {
         name = 'NORMAL',
         color = function()
-            return palette.rose
+            return palette.pink
         end,
     },
     i = {
         name = 'INSERT',
         color = function()
-            return palette.foam
+            return palette.green
         end,
     },
     v = {
         name = 'VISUAL',
         color = function()
-            return palette.iris
+            return palette.purple
         end,
     },
     V = {
         name = 'V-LINE',
         color = function()
-            return palette.iris
+            return palette.purple
         end,
     },
     ['\22'] = {
         name = 'V-BLOCK',
         color = function()
-            return palette.iris
+            return palette.purple
         end,
     },
     s = {
         name = 'SELECT',
         color = function()
-            return palette.iris
+            return palette.purple
         end,
     },
     S = {
         name = 'S-LINE',
         color = function()
-            return palette.iris
+            return palette.purple
         end,
     },
     R = {
         name = 'REPLACE',
         color = function()
-            return palette.pine
+            return palette.orange
         end,
     },
     c = {
         name = 'COMMAND',
         color = function()
-            return palette.love
+            return palette.red
         end,
     },
     t = {
         name = 'TERMINAL',
         color = function()
-            return palette.love
+            return palette.red
         end,
     },
 }
@@ -98,7 +102,7 @@ local function mode_info()
     local m = vim.fn.mode()
     local entry = mode_map[m] or mode_map[m:sub(1, 1)]
     if not entry then
-        return { name = m:upper(), color = palette.rose }
+        return { name = m:upper(), color = palette.pink }
     end
     return { name = entry.name, color = entry.color() }
 end
@@ -111,12 +115,12 @@ local function update_mode_hl(key, color)
     vim.api.nvim_set_hl(
         0,
         'MeStatusModeA',
-        { bg = color, fg = palette.base, bold = true }
+        { bg = color, fg = palette.bg, bold = true }
     )
     vim.api.nvim_set_hl(
         0,
         'MeStatusModeB',
-        { bg = palette.overlay, fg = color }
+        { bg = palette.selection, fg = color }
     )
 end
 
